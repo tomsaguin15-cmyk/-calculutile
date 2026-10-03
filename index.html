@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Calcul’utile — Les outils utiles, simplement</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #172033;
+    }
+
+    header {
+      background: #172033;
+      color: white;
+      text-align: center;
+      padding: 45px 20px;
+    }
+
+    header h1 {
+      font-size: 42px;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 18px;
+      color: #cbd5e1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px 18px;
+    }
+
+    .search {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    .card p {
+      color: #667085;
+      min-height: 40px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #172033;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .tool {
+      display: none;
+      background: white;
+      margin-top: 25px;
+      padding: 25px;
+      border-radius: 18px;
+    }
+
+    .tool.active {
+      display: block;
+    }
+
+    .tool input {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0;
+      border: 1px solid #ccd2da;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .result {
+      margin-top: 18px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 35px;
+      color: #667085;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Calcul’utile</h1>
+  <p>Les outils utiles, simplement.</p>
+</header>
+
+<div class="container">
+
+  <input
+    class="search"
+    id="search"
+    type="text"
+    placeholder="🔎 Rechercher un outil..."
+  >
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>🧮 Pourcentage</h2>
+      <p>Calculer un pourcentage d'une valeur.</p>
+      <button onclick="ouvrir('pourcentage')">Ouvrir</button>
+    </div>
+
+    <div class="card">
+      <h2>💰 Remise</h2>
+      <p>Calculer le prix après une réduction.</p>
+      <button onclick="ouvrir('remise')">Ouvrir</button>
+    </div>
+
+    <div class="card">
+      <h2>🏃 Vitesse</h2>
+      <p>Calculer une vitesse à partir d'une distance et d'un temps.</p>
+      <button onclick="ouvrir('vitesse')">Ouvrir</button>
+    </div>
+
+    <div class="card">
+      <h2>⛽ Consommation</h2>
+      <p>Calculer la consommation d'un véhicule.</p>
+      <button onclick="ouvrir('consommation')">Ouvrir</button>
+    </div>
+
+    <div class="card">
+      <h2>📏 Conversion</h2>
+      <p>Convertir des kilomètres en mètres.</p>
+      <button onclick="ouvrir('conversion')">Ouvrir</button>
+    </div>
+
+  </div>
+
+  <!-- POURCENTAGE -->
+
+  <div class="tool" id="pourcentage">
+
+    <h2>🧮 Calculateur de pourcentage</h2>
+
+    <input
+      id="pourcent"
+      type="number"
+      placeholder="Pourcentage (%)"
+    >
+
+    <input
+      id="valeur"
+      type="number"
+      placeholder="Valeur"
+    >
+
+    <button onclick="calculerPourcentage()">
+      Calculer
+    </button>
+
+    <div class="result" id="resultatPourcentage"></div>
+
+  </div>
+
+
+  <!-- REMISE -->
+
+  <div class="tool" id="remise">
+
+    <h2>💰 Calculateur de remise</h2>
+
+    <input
+      id="prix"
+      type="number"
+      placeholder="Prix (€)"
+    >
+
+    <input
+      id="remisePourcent"
+      type="number"
+      placeholder="Remise (%)"
+    >
+
+    <button onclick="calculerRemise()">
+      Calculer
+    </button>
+
+    <div class="result" id="resultatRemise"></div>
+
+  </div>
+
+
+  <!-- VITESSE -->
+
+  <div class="tool" id="vitesse">
+
+    <h2>🏃 Calculateur de vitesse</h2>
+
+    <input
+      id="distance"
+      type="number"
+      placeholder="Distance (km)"
+    >
+
+    <input
+      id="temps"
+      type="number"
+      placeholder="Temps (heures)"
+    >
+
+    <button onclick="calculerVitesse()">
+      Calculer
+    </button>
+
+    <div class="result" id="resultatVitesse"></div>
+
+  </div>
+
+
+  <!-- CONSOMMATION -->
+
+  <div class="tool" id="consommation">
+
+    <h2>⛽ Consommation</h2>
+
+    <input
+      id="litres"
+      type="number"
+      placeholder="Litres consommés"
+    >
+
+    <input
+      id="km"
+      type="number"
+      placeholder="Distance parcourue (km)"
+    >
+
+    <button onclick="calculerConsommation()">
+      Calculer
+    </button>
+
+    <div class="result" id="resultatConsommation"></div>
+
+  </div>
+
+
+  <!-- CONVERSION -->
+
+  <div class="tool" id="conversion">
+
+    <h2>📏 Kilomètres → mètres</h2>
+
+    <input
+      id="kilometres"
+      type="number"
+      placeholder="Kilomètres"
+    >
+
+    <button onclick="convertir()">
+      Convertir
+    </button>
+
+    <div class="result" id="resultatConversion"></div>
+
+  </div>
+
+</div>
+
+<footer>
+  Calcul’utile © 2026<br>
+  Les outils utiles, simplement.
+</footer>
+
+
+<script>
+
+function ouvrir(id) {
+
+  document.querySelectorAll(".tool").forEach(function(tool) {
+    tool.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+
+  document.getElementById(id).scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+
+// POURCENTAGE
+
+function calculerPourcentage() {
+
+  let pourcentage =
+    parseFloat(document.getElementById("pourcent").value);
+
+  let valeur =
+    parseFloat(document.getElementById("valeur").value);
+
+  if (isNaN(pourcentage) || isNaN(valeur)) {
+    document.getElementById("resultatPourcentage").textContent =
+      "Entre des valeurs valides.";
+    return;
+  }
+
+  let resultat = valeur * pourcentage / 100;
+
+  document.getElementById("resultatPourcentage").textContent =
+    "Résultat : " + resultat.toFixed(2);
+}
+
+
+// REMISE
+
+function calculerRemise() {
+
+  let prix =
+    parseFloat(document.getElementById("prix").value);
+
+  let remise =
+    parseFloat(document.getElementById("remisePourcent").value);
+
+  if (isNaN(prix) || isNaN(remise)) {
+    document.getElementById("resultatRemise").textContent =
+      "Entre des valeurs valides.";
+    return;
+  }
+
+  let prixFinal = prix - (prix * remise / 100);
+
+  document.getElementById("resultatRemise").textContent =
+    "Prix final : " + prixFinal.toFixed(2) + " €";
+}
+
+
+// VITESSE
+
+function calculerVitesse() {
+
+  let distance =
+    parseFloat(document.getElementById("distance").value);
+
+  let temps =
+    parseFloat(document.getElementById("temps").value);
+
+  if (isNaN(distance) || isNaN(temps) || temps <= 0) {
+    document.getElementById("resultatVitesse").textContent =
+      "Entre des valeurs valides.";
+    return;
+  }
+
+  let vitesse = distance / temps;
+
+  document.getElementById("resultatVitesse").textContent =
+    "Vitesse : " + vitesse.toFixed(2) + " km/h";
+}
+
+
+// CONSOMMATION
+
+function calculerConsommation() {
+
+  let litres =
+    parseFloat(document.getElementById("litres").value);
+
+  let km =
+    parseFloat(document.getElementById("km").value);
+
+  if (isNaN(litres) || isNaN(km) || km <= 0) {
+    document.getElementById("resultatConsommation").textContent =
+      "Entre des valeurs valides.";
+    return;
+  }
+
+  let consommation = litres / km * 100;
+
+  document.getElementById("resultatConsommation").textContent =
+    "Consommation : " + consommation.toFixed(2) + " L/100 km";
+}
+
+
+// CONVERSION
+
+function convertir() {
+
+  let kilometres =
+    parseFloat(document.getElementById("kilometres").value);
+
+  if (isNaN(kilometres)) {
+    document.getElementById("resultatConversion").textContent =
+      "Entre une valeur valide.";
+    return;
+  }
+
+  let metres = kilometres * 1000;
+
+  document.getElementById("resultatConversion").textContent =
+    metres + " mètres";
+}
+
+
+// RECHERCHE
+
+document.getElementById("search").addEventListener("input", function() {
+
+  let recherche = this.value.toLowerCase();
+
+  document.querySelectorAll(".card").forEach(function(card) {
+
+    if (card.textContent.toLowerCase().includes(recherche)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
