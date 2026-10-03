@@ -1,456 +1,1001 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Calcul’utile — Les outils utiles, simplement</title>
+<title>Calcul’utile — 40 outils gratuits</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+*{box-sizing:border-box}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      color: #172033;
-    }
+:root{
+  --bg:#07111f;
+  --card:#101d30;
+  --card2:#15253c;
+  --text:#f8fafc;
+  --muted:#9fb0c5;
+  --blue:#38bdf8;
+  --purple:#8b5cf6;
+  --green:#22c55e;
+  --orange:#fb923c;
+}
 
-    header {
-      background: #172033;
-      color: white;
-      text-align: center;
-      padding: 45px 20px;
-    }
+html{scroll-behavior:smooth}
 
-    header h1 {
-      font-size: 42px;
-      margin: 0;
-    }
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,#183b64 0,transparent 28%),
+    radial-gradient(circle at 90% 20%,#39205f 0,transparent 25%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-    header p {
-      font-size: 18px;
-      color: #cbd5e1;
-    }
+/* PARTICULES */
+body:before,
+body:after{
+  content:"";
+  position:fixed;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:.25;
+  z-index:-1;
+  animation:float 8s infinite alternate ease-in-out;
+}
+body:before{
+  background:#0ea5e9;
+  left:-100px;
+  top:30%;
+}
+body:after{
+  background:#8b5cf6;
+  right:-100px;
+  top:60%;
+  animation-delay:2s;
+}
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 25px 18px;
-    }
+@keyframes float{
+  from{transform:translateY(-30px) scale(1)}
+  to{transform:translateY(40px) scale(1.2)}
+}
 
-    .search {
-      width: 100%;
-      padding: 16px;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      font-size: 16px;
-      margin-bottom: 25px;
-    }
+/* HEADER */
+header{
+  text-align:center;
+  padding:65px 20px 45px;
+  position:relative;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
+.logo{
+  display:inline-block;
+  font-size:clamp(42px,10vw,76px);
+  font-weight:900;
+  letter-spacing:-4px;
+  background:linear-gradient(90deg,#38bdf8,#8b5cf6,#ec4899);
+  -webkit-background-clip:text;
+  color:transparent;
+  animation:logo 3s infinite alternate ease-in-out;
+}
 
-    .card {
-      background: white;
-      padding: 22px;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-    }
+@keyframes logo{
+  from{filter:drop-shadow(0 0 5px #38bdf8)}
+  to{filter:drop-shadow(0 0 25px #8b5cf6)}
+}
 
-    .card h2 {
-      margin-top: 0;
-    }
+header p{
+  color:var(--muted);
+  font-size:18px;
+  margin:12px auto;
+}
 
-    .card p {
-      color: #667085;
-      min-height: 40px;
-    }
+.badge{
+  display:inline-block;
+  margin-top:15px;
+  padding:9px 15px;
+  border:1px solid #ffffff20;
+  border-radius:50px;
+  background:#ffffff0c;
+  backdrop-filter:blur(10px);
+  color:#dbeafe;
+}
 
-    button {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 10px;
-      background: #172033;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* CONTAINER */
+.container{
+  width:min(1200px,92%);
+  margin:auto;
+}
 
-    button:hover {
-      opacity: 0.85;
-    }
+/* SEARCH */
+.searchbox{
+  position:sticky;
+  top:10px;
+  z-index:20;
+  margin-bottom:25px;
+}
 
-    .tool {
-      display: none;
-      background: white;
-      margin-top: 25px;
-      padding: 25px;
-      border-radius: 18px;
-    }
+#search{
+  width:100%;
+  padding:18px 20px;
+  border:1px solid #ffffff18;
+  border-radius:18px;
+  background:#0b1728dd;
+  backdrop-filter:blur(15px);
+  color:white;
+  outline:none;
+  font-size:16px;
+  box-shadow:0 10px 35px #0004;
+}
 
-    .tool.active {
-      display: block;
-    }
+#search:focus{
+  border-color:#38bdf8;
+  box-shadow:0 0 25px #38bdf833;
+}
 
-    .tool input {
-      width: 100%;
-      padding: 13px;
-      margin: 7px 0;
-      border: 1px solid #ccd2da;
-      border-radius: 10px;
-      font-size: 16px;
-    }
+/* CATEGORIES */
+.category{
+  margin:40px 0 18px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    .result {
-      margin-top: 18px;
-      font-size: 20px;
-      font-weight: bold;
-    }
+.category h2{
+  margin:0;
+  font-size:24px;
+}
 
-    footer {
-      text-align: center;
-      padding: 35px;
-      color: #667085;
-    }
-  </style>
+.line{
+  height:1px;
+  background:linear-gradient(90deg,#ffffff20,transparent);
+  flex:1;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(235px,1fr));
+  gap:17px;
+}
+
+/* CARDS */
+.card{
+  position:relative;
+  padding:22px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#13243a,#0d192b);
+  border:1px solid #ffffff12;
+  overflow:hidden;
+  transition:.3s ease;
+  animation:appear .6s ease both;
+}
+
+.card:before{
+  content:"";
+  position:absolute;
+  width:100px;
+  height:100px;
+  background:#38bdf8;
+  filter:blur(60px);
+  opacity:.12;
+  right:-40px;
+  top:-40px;
+}
+
+.card:hover{
+  transform:translateY(-7px) scale(1.015);
+  border-color:#38bdf855;
+  box-shadow:0 18px 50px #0006;
+}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.icon{
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  margin:5px 0 8px;
+  font-size:19px;
+}
+
+.card p{
+  color:var(--muted);
+  min-height:40px;
+  line-height:1.4;
+}
+
+button{
+  width:100%;
+  border:0;
+  padding:13px;
+  border-radius:13px;
+  background:linear-gradient(90deg,#0284c7,#7c3aed);
+  color:white;
+  font-weight:bold;
+  font-size:15px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+button:hover{
+  transform:scale(1.02);
+  filter:brightness(1.15);
+}
+
+button:active{
+  transform:scale(.97);
+}
+
+/* CALCULATOR */
+#calculator{
+  display:none;
+  margin:35px 0;
+  padding:28px;
+  border-radius:25px;
+  background:#0d1b2e;
+  border:1px solid #ffffff18;
+  box-shadow:0 20px 70px #0008;
+  animation:toolIn .45s ease;
+}
+
+@keyframes toolIn{
+  from{opacity:0;transform:scale(.96) translateY(20px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+#calculator.active{display:block}
+
+#toolTitle{
+  font-size:27px;
+  margin-top:0;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:12px;
+}
+
+input,select{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ffffff18;
+  background:#07111f;
+  color:white;
+  font-size:16px;
+  outline:none;
+}
+
+input:focus,select:focus{
+  border-color:#38bdf8;
+}
+
+.result{
+  margin-top:18px;
+  padding:18px;
+  border-radius:15px;
+  background:linear-gradient(90deg,#0ea5e922,#8b5cf622);
+  border:1px solid #38bdf833;
+  font-size:20px;
+  font-weight:bold;
+  min-height:30px;
+}
+
+.close{
+  background:#ffffff10;
+  margin-top:10px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:60px 20px 35px;
+  color:#718198;
+}
+
+footer strong{
+  color:#cbd5e1;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  header{padding-top:45px}
+  .grid{grid-template-columns:1fr}
+  .card{padding:20px}
+  #calculator{padding:21px}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>Calcul’utile</h1>
+  <div class="logo">Calcul’utile</div>
   <p>Les outils utiles, simplement.</p>
+  <div class="badge">⚡ 40 outils gratuits</div>
 </header>
 
 <div class="container">
 
-  <input
-    class="search"
-    id="search"
-    type="text"
-    placeholder="🔎 Rechercher un outil..."
-  >
+<div class="searchbox">
+<input id="search" type="text" placeholder="🔎 Rechercher un outil...">
+</div>
 
-  <div class="grid">
-
-    <div class="card">
-      <h2>🧮 Pourcentage</h2>
-      <p>Calculer un pourcentage d'une valeur.</p>
-      <button onclick="ouvrir('pourcentage')">Ouvrir</button>
-    </div>
-
-    <div class="card">
-      <h2>💰 Remise</h2>
-      <p>Calculer le prix après une réduction.</p>
-      <button onclick="ouvrir('remise')">Ouvrir</button>
-    </div>
-
-    <div class="card">
-      <h2>🏃 Vitesse</h2>
-      <p>Calculer une vitesse à partir d'une distance et d'un temps.</p>
-      <button onclick="ouvrir('vitesse')">Ouvrir</button>
-    </div>
-
-    <div class="card">
-      <h2>⛽ Consommation</h2>
-      <p>Calculer la consommation d'un véhicule.</p>
-      <button onclick="ouvrir('consommation')">Ouvrir</button>
-    </div>
-
-    <div class="card">
-      <h2>📏 Conversion</h2>
-      <p>Convertir des kilomètres en mètres.</p>
-      <button onclick="ouvrir('conversion')">Ouvrir</button>
-    </div>
-
-  </div>
-
-  <!-- POURCENTAGE -->
-
-  <div class="tool" id="pourcentage">
-
-    <h2>🧮 Calculateur de pourcentage</h2>
-
-    <input
-      id="pourcent"
-      type="number"
-      placeholder="Pourcentage (%)"
-    >
-
-    <input
-      id="valeur"
-      type="number"
-      placeholder="Valeur"
-    >
-
-    <button onclick="calculerPourcentage()">
-      Calculer
-    </button>
-
-    <div class="result" id="resultatPourcentage"></div>
-
-  </div>
+<div id="calculator">
+  <h2 id="toolTitle"></h2>
+  <div class="fields" id="fields"></div>
+  <button id="calculateBtn">Calculer</button>
+  <div class="result" id="result"></div>
+  <button class="close" onclick="closeTool()">✕ Fermer</button>
+</div>
 
 
-  <!-- REMISE -->
+<!-- MATHS -->
+<div class="category">
+<h2>🧮 Maths</h2><div class="line"></div>
+</div>
 
-  <div class="tool" id="remise">
+<div class="grid">
 
-    <h2>💰 Calculateur de remise</h2>
+<div class="card" data-name="pourcentage">
+<div class="icon">%</div><h3>Pourcentage</h3>
+<p>Calculer un pourcentage d'une valeur.</p>
+<button onclick="openTool('percentage')">Ouvrir</button>
+</div>
 
-    <input
-      id="prix"
-      type="number"
-      placeholder="Prix (€)"
-    >
+<div class="card" data-name="moyenne">
+<div class="icon">📊</div><h3>Moyenne</h3>
+<p>Calculer la moyenne de plusieurs notes.</p>
+<button onclick="openTool('average')">Ouvrir</button>
+</div>
 
-    <input
-      id="remisePourcent"
-      type="number"
-      placeholder="Remise (%)"
-    >
+<div class="card" data-name="remise reduction">
+<div class="icon">💸</div><h3>Remise</h3>
+<p>Calculer un prix après réduction.</p>
+<button onclick="openTool('discount')">Ouvrir</button>
+</div>
 
-    <button onclick="calculerRemise()">
-      Calculer
-    </button>
+<div class="card" data-name="augmentation">
+<div class="icon">📈</div><h3>Augmentation</h3>
+<p>Ajouter un pourcentage à une valeur.</p>
+<button onclick="openTool('increase')">Ouvrir</button>
+</div>
 
-    <div class="result" id="resultatRemise"></div>
+<div class="card" data-name="regle trois">
+<div class="icon">🔢</div><h3>Règle de trois</h3>
+<p>Calculer une quatrième proportionnelle.</p>
+<button onclick="openTool('rule3')">Ouvrir</button>
+</div>
 
-  </div>
+<div class="card" data-name="pgcd">
+<div class="icon">➗</div><h3>PGCD</h3>
+<p>Trouver le plus grand diviseur commun.</p>
+<button onclick="openTool('pgcd')">Ouvrir</button>
+</div>
 
+<div class="card" data-name="ppcm">
+<div class="icon">🔢</div><h3>PPCM</h3>
+<p>Trouver le plus petit multiple commun.</p>
+<button onclick="openTool('ppcm')">Ouvrir</button>
+</div>
 
-  <!-- VITESSE -->
+<div class="card" data-name="puissance">
+<div class="icon">²</div><h3>Puissance</h3>
+<p>Calculer une puissance.</p>
+<button onclick="openTool('power')">Ouvrir</button>
+</div>
 
-  <div class="tool" id="vitesse">
+<div class="card" data-name="carre">
+<div class="icon">⬛</div><h3>Carré</h3>
+<p>Calculer l'aire et le périmètre d'un carré.</p>
+<button onclick="openTool('square')">Ouvrir</button>
+</div>
 
-    <h2>🏃 Calculateur de vitesse</h2>
+<div class="card" data-name="rectangle">
+<div class="icon">▭</div><h3>Rectangle</h3>
+<p>Calculer aire et périmètre.</p>
+<button onclick="openTool('rectangle')">Ouvrir</button>
+</div>
 
-    <input
-      id="distance"
-      type="number"
-      placeholder="Distance (km)"
-    >
-
-    <input
-      id="temps"
-      type="number"
-      placeholder="Temps (heures)"
-    >
-
-    <button onclick="calculerVitesse()">
-      Calculer
-    </button>
-
-    <div class="result" id="resultatVitesse"></div>
-
-  </div>
-
-
-  <!-- CONSOMMATION -->
-
-  <div class="tool" id="consommation">
-
-    <h2>⛽ Consommation</h2>
-
-    <input
-      id="litres"
-      type="number"
-      placeholder="Litres consommés"
-    >
-
-    <input
-      id="km"
-      type="number"
-      placeholder="Distance parcourue (km)"
-    >
-
-    <button onclick="calculerConsommation()">
-      Calculer
-    </button>
-
-    <div class="result" id="resultatConsommation"></div>
-
-  </div>
+</div>
 
 
-  <!-- CONVERSION -->
+<!-- SPORT -->
+<div class="category">
+<h2>🏃 Sport</h2><div class="line"></div>
+</div>
 
-  <div class="tool" id="conversion">
+<div class="grid">
 
-    <h2>📏 Kilomètres → mètres</h2>
+<div class="card" data-name="vitesse sport">
+<div class="icon">⚡</div><h3>Vitesse</h3>
+<p>Distance et temps → vitesse moyenne.</p>
+<button onclick="openTool('speed')">Ouvrir</button>
+</div>
 
-    <input
-      id="kilometres"
-      type="number"
-      placeholder="Kilomètres"
-    >
+<div class="card" data-name="allure running">
+<div class="icon">🏃</div><h3>Allure</h3>
+<p>Calculer son allure en min/km.</p>
+<button onclick="openTool('pace')">Ouvrir</button>
+</div>
 
-    <button onclick="convertir()">
-      Convertir
-    </button>
+<div class="card" data-name="distance">
+<div class="icon">📍</div><h3>Distance</h3>
+<p>Calculer une distance avec vitesse et temps.</p>
+<button onclick="openTool('distance')">Ouvrir</button>
+</div>
 
-    <div class="result" id="resultatConversion"></div>
+<div class="card" data-name="temps course">
+<div class="icon">⏱️</div><h3>Temps</h3>
+<p>Calculer un temps de course.</p>
+<button onclick="openTool('racetime')">Ouvrir</button>
+</div>
 
-  </div>
+<div class="card" data-name="kmh ms">
+<div class="icon">🔄</div><h3>km/h → m/s</h3>
+<p>Convertir une vitesse.</p>
+<button onclick="openTool('kmhms')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="ms kmh">
+<div class="icon">🔁</div><h3>m/s → km/h</h3>
+<p>Convertir une vitesse.</p>
+<button onclick="openTool('mskmh')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="pace400 400m">
+<div class="icon">🏟️</div><h3>Temps sur 400 m</h3>
+<p>Calculer la vitesse sur 400 m.</p>
+<button onclick="openTool('track400')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="pourcentage sport">
+<div class="icon">💪</div><h3>Pourcentage distance</h3>
+<p>Calculer une partie d'une distance.</p>
+<button onclick="openTool('sportpercent')">Ouvrir</button>
+</div>
+
+</div>
+
+
+<!-- ESSENCE -->
+<div class="category">
+<h2>⛽ Auto & Moto</h2><div class="line"></div>
+</div>
+
+<div class="grid">
+
+<div class="card" data-name="consommation essence">
+<div class="icon">⛽</div><h3>Consommation</h3>
+<p>Calculer les L/100 km.</p>
+<button onclick="openTool('fuel')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="autonomie essence">
+<div class="icon">🏍️</div><h3>Autonomie</h3>
+<p>Estimer les kilomètres possibles.</p>
+<button onclick="openTool('range')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="prix trajet essence">
+<div class="icon">💶</div><h3>Coût du trajet</h3>
+<p>Calculer le prix d'un trajet.</p>
+<button onclick="openTool('tripcost')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="litres trajet">
+<div class="icon">🛢️</div><h3>Litres nécessaires</h3>
+<p>Calculer les litres pour une distance.</p>
+<button onclick="openTool('litersneeded')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="prix litre essence">
+<div class="icon">💰</div><h3>Prix au litre</h3>
+<p>Calculer le prix d'un litre.</p>
+<button onclick="openTool('literprice')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="partage trajet">
+<div class="icon">👥</div><h3>Partage du trajet</h3>
+<p>Partager le coût entre plusieurs personnes.</p>
+<button onclick="openTool('splitfuel')">Ouvrir</button>
+</div>
+
+</div>
+
+
+<!-- CONVERSIONS -->
+<div class="category">
+<h2>📏 Conversions</h2><div class="line"></div>
+</div>
+
+<div class="grid">
+
+<div class="card" data-name="km mètres">
+<div class="icon">📏</div><h3>km → mètres</h3>
+<p>Convertir des kilomètres en mètres.</p>
+<button onclick="openTool('kmmeters')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="mètres km">
+<div class="icon">📐</div><h3>mètres → km</h3>
+<p>Convertir des mètres en kilomètres.</p>
+<button onclick="openTool('meterskm')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="kg grammes poids">
+<div class="icon">⚖️</div><h3>kg → grammes</h3>
+<p>Convertir des kilogrammes.</p>
+<button onclick="openTool('kggrams')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="grammes kg">
+<div class="icon">⚖️</div><h3>grammes → kg</h3>
+<p>Convertir des grammes.</p>
+<button onclick="openTool('gramskg')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="litres ml volume">
+<div class="icon">🥤</div><h3>litres → mL</h3>
+<p>Convertir des litres en millilitres.</p>
+<button onclick="openTool('litersml')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="ml litres">
+<div class="icon">🧪</div><h3>mL → litres</h3>
+<p>Convertir des millilitres.</p>
+<button onclick="openTool('mlliters')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="celsius fahrenheit température">
+<div class="icon">🌡️</div><h3>°C → °F</h3>
+<p>Convertir une température.</p>
+<button onclick="openTool('cf')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="fahrenheit celsius">
+<div class="icon">🌡️</div><h3>°F → °C</h3>
+<p>Convertir une température.</p>
+<button onclick="openTool('fc')">Ouvrir</button>
+</div>
+
+</div>
+
+
+<!-- ARGENT -->
+<div class="category">
+<h2>💰 Argent</h2><div class="line"></div>
+</div>
+
+<div class="grid">
+
+<div class="card" data-name="tva">
+<div class="icon">🧾</div><h3>TVA</h3>
+<p>Calculer un prix TTC.</p>
+<button onclick="openTool('vat')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="partage argent">
+<div class="icon">🤝</div><h3>Partager une somme</h3>
+<p>Diviser une somme entre plusieurs personnes.</p>
+<button onclick="openTool('splitmoney')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="epargne">
+<div class="icon">🐷</div><h3>Épargne</h3>
+<p>Calculer combien tu économises.</p>
+<button onclick="openTool('saving')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="pourboire">
+<div class="icon">🍽️</div><h3>Pourboire</h3>
+<p>Calculer un pourboire.</p>
+<button onclick="openTool('tip')">Ouvrir</button>
+</div>
+
+</div>
+
+
+<!-- TEMPS -->
+<div class="category">
+<h2>⏱️ Temps</h2><div class="line"></div>
+</div>
+
+<div class="grid">
+
+<div class="card" data-name="heures minutes">
+<div class="icon">⏰</div><h3>Heures → minutes</h3>
+<p>Convertir des heures en minutes.</p>
+<button onclick="openTool('hoursminutes')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="minutes secondes">
+<div class="icon">⏱️</div><h3>Minutes → secondes</h3>
+<p>Convertir des minutes.</p>
+<button onclick="openTool('minutesseconds')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="jours heures">
+<div class="icon">📅</div><h3>Jours → heures</h3>
+<p>Convertir des jours en heures.</p>
+<button onclick="openTool('dayshours')">Ouvrir</button>
+</div>
+
+<div class="card" data-name="semaines jours">
+<div class="icon">🗓️</div><h3>Semaines → jours</h3>
+<p>Convertir des semaines.</p>
+<button onclick="openTool('weeksdays')">Ouvrir</button>
+</div>
+
+</div>
 
 </div>
 
 <footer>
-  Calcul’utile © 2026<br>
-  Les outils utiles, simplement.
+<strong>Calcul’utile</strong> © 2026<br>
+Les outils utiles, simplement. ⚡
 </footer>
 
 
 <script>
 
-function ouvrir(id) {
+const tools={
 
-  document.querySelectorAll(".tool").forEach(function(tool) {
-    tool.classList.remove("active");
-  });
+percentage:{
+title:"🧮 Pourcentage",
+fields:["Pourcentage (%)","Valeur"],
+calc:v=>v[1]*v[0]/100+""
+},
 
-  document.getElementById(id).classList.add("active");
+average:{
+title:"📊 Moyenne",
+fields:["Note 1","Note 2","Note 3","Note 4","Note 5"],
+calc:v=>{
+ let a=v.filter(x=>!isNaN(x));
+ return a.reduce((a,b)=>a+b,0)/a.length;
+}
+},
 
-  document.getElementById(id).scrollIntoView({
-    behavior: "smooth"
-  });
+discount:{
+title:"💸 Remise",
+fields:["Prix (€)","Remise (%)"],
+calc:v=>v[0]*(1-v[1]/100)+" €"
+},
+
+increase:{
+title:"📈 Augmentation",
+fields:["Valeur","Augmentation (%)"],
+calc:v=>v[0]*(1+v[1]/100)
+},
+
+rule3:{
+title:"🔢 Règle de trois",
+fields:["A","B","C"],
+calc:v=>v[1]*v[2]/v[0]
+},
+
+pgcd:{
+title:"➗ PGCD",
+fields:["Nombre A","Nombre B"],
+calc:v=>{
+ let a=Math.abs(v[0]),b=Math.abs(v[1]);
+ while(b){let t=b;b=a%b;a=t}
+ return a;
+}
+},
+
+ppcm:{
+title:"🔢 PPCM",
+fields:["Nombre A","Nombre B"],
+calc:v=>{
+ let a=Math.abs(v[0]),b=Math.abs(v[1]),x=a,y=b;
+ while(y){let t=y;y=x%y;x=t}
+ return Math.abs(a*b)/x;
+}
+},
+
+power:{
+title:"² Puissance",
+fields:["Base","Exposant"],
+calc:v=>Math.pow(v[0],v[1])
+},
+
+square:{
+title:"⬛ Carré",
+fields:["Côté"],
+calc:v=>"Aire : "+v[0]*v[0]+" — Périmètre : "+4*v[0]
+},
+
+rectangle:{
+title:"▭ Rectangle",
+fields:["Longueur","Largeur"],
+calc:v=>"Aire : "+v[0]*v[1]+" — Périmètre : "+2*(v[0]+v[1])
+},
+
+speed:{
+title:"⚡ Vitesse",
+fields:["Distance (km)","Temps (h)"],
+calc:v=>v[0]/v[1]+" km/h"
+},
+
+pace:{
+title:"🏃 Allure",
+fields:["Distance (km)","Temps (minutes)"],
+calc:v=>{
+ let pace=v[1]/v[0];
+ let min=Math.floor(pace);
+ let sec=Math.round((pace-min)*60);
+ return min+" min "+sec+" s/km";
+}
+},
+
+distance:{
+title:"📍 Distance",
+fields:["Vitesse (km/h)","Temps (h)"],
+calc:v=>v[0]*v[1]+" km"
+},
+
+racetime:{
+title:"⏱️ Temps de course",
+fields:["Distance (km)","Vitesse (km/h)"],
+calc:v=>v[0]/v[1]+" h"
+},
+
+kmhms:{
+title:"🔄 km/h → m/s",
+fields:["km/h"],
+calc:v=>v[0]/3.6+" m/s"
+},
+
+mskmh:{
+title:"🔁 m/s → km/h",
+fields:["m/s"],
+calc:v=>v[0]*3.6+" km/h"
+},
+
+track400:{
+title:"🏟️ Temps sur 400 m",
+fields:["Temps (secondes)"],
+calc:v=>1440/v[0]+" km/h"
+},
+
+sportpercent:{
+title:"💪 Pourcentage d'une distance",
+fields:["Distance","Pourcentage (%)"],
+calc:v=>v[0]*v[1]/100
+},
+
+fuel:{
+title:"⛽ Consommation",
+fields:["Litres consommés","Kilomètres parcourus"],
+calc:v=>v[0]/v[1]*100+" L/100 km"
+},
+
+range:{
+title:"🏍️ Autonomie",
+fields:["Litres disponibles","Consommation L/100 km"],
+calc:v=>v[0]/v[1]*100+" km"
+},
+
+tripcost:{
+title:"💶 Coût du trajet",
+fields:["Distance (km)","Consommation L/100km","Prix/L (€)"],
+calc:v=>v[0]/100*v[1]*v[2]+" €"
+},
+
+litersneeded:{
+title:"🛢️ Litres nécessaires",
+fields:["Distance (km)","Consommation L/100km"],
+calc:v=>v[0]/100*v[1]+" L"
+},
+
+literprice:{
+title:"💰 Prix au litre",
+fields:["Prix total (€)","Litres"],
+calc:v=>v[0]/v[1]+" €/L"
+},
+
+splitfuel:{
+title:"👥 Partage du trajet",
+fields:["Coût total (€)","Nombre de personnes"],
+calc:v=>v[0]/v[1]+" € / personne"
+},
+
+kmmeters:{
+title:"📏 Kilomètres → mètres",
+fields:["Kilomètres"],
+calc:v=>v[0]*1000+" m"
+},
+
+meterskm:{
+title:"📐 Mètres → kilomètres",
+fields:["Mètres"],
+calc:v=>v[0]/1000+" km"
+},
+
+kggrams:{
+title:"⚖️ Kilogrammes → grammes",
+fields:["Kilogrammes"],
+calc:v=>v[0]*1000+" g"
+},
+
+gramskg:{
+title:"⚖️ Grammes → kilogrammes",
+fields:["Grammes"],
+calc:v=>v[0]/1000+" kg"
+},
+
+litersml:{
+title:"🥤 Litres → mL",
+fields:["Litres"],
+calc:v=>v[0]*1000+" mL"
+},
+
+mlliters:{
+title:"🧪 mL → litres",
+fields:["Millilitres"],
+calc:v=>v[0]/1000+" L"
+},
+
+cf:{
+title:"🌡️ °C → °F",
+fields:["Celsius"],
+calc:v=>v[0]*9/5+32+" °F"
+},
+
+fc:{
+title:"🌡️ °F → °C",
+fields:["Fahrenheit"],
+calc:v=>(v[0]-32)*5/9+" °C"
+},
+
+vat:{
+title:"🧾 TVA",
+fields:["Prix HT (€)","TVA (%)"],
+calc:v=>{
+ let tva=v[0]*v[1]/100;
+ return "TVA : "+tva.toFixed(2)+" € | TTC : "+(v[0]+tva).toFixed(2)+" €";
+}
+},
+
+splitmoney:{
+title:"🤝 Partager une somme",
+fields:["Somme (€)","Personnes"],
+calc:v=>v[0]/v[1]+" € / personne"
+},
+
+saving:{
+title:"🐷 Épargne",
+fields:["Somme actuelle (€)","Épargne mensuelle (€)","Nombre de mois"],
+calc:v=>v[0]+v[1]*v[2]+" €"
+},
+
+tip:{
+title:"🍽️ Pourboire",
+fields:["Addition (€)","Pourboire (%)"],
+calc:v=>v[0]*v[1]/100+" €"
+},
+
+hoursminutes:{
+title:"⏰ Heures → minutes",
+fields:["Heures"],
+calc:v=>v[0]*60+" minutes"
+},
+
+minutesseconds:{
+title:"⏱️ Minutes → secondes",
+fields:["Minutes"],
+calc:v=>v[0]*60+" secondes"
+},
+
+dayshours:{
+title:"📅 Jours → heures",
+fields:["Jours"],
+calc:v=>v[0]*24+" heures"
+},
+
+weeksdays:{
+title:"🗓️ Semaines → jours",
+fields:["Semaines"],
+calc:v=>v[0]*7+" jours"
 }
 
+};
 
-// POURCENTAGE
+let currentTool=null;
 
-function calculerPourcentage() {
+function openTool(id){
 
-  let pourcentage =
-    parseFloat(document.getElementById("pourcent").value);
+ currentTool=tools[id];
 
-  let valeur =
-    parseFloat(document.getElementById("valeur").value);
+ document.getElementById("toolTitle").textContent=currentTool.title;
 
-  if (isNaN(pourcentage) || isNaN(valeur)) {
-    document.getElementById("resultatPourcentage").textContent =
-      "Entre des valeurs valides.";
-    return;
-  }
+ const fields=document.getElementById("fields");
 
-  let resultat = valeur * pourcentage / 100;
+ fields.innerHTML="";
 
-  document.getElementById("resultatPourcentage").textContent =
-    "Résultat : " + resultat.toFixed(2);
+ currentTool.fields.forEach((name,i)=>{
+   fields.innerHTML+=`
+   <input type="number" id="input${i}" placeholder="${name}">
+   `;
+ });
+
+ document.getElementById("result").textContent="";
+
+ document.getElementById("calculator").classList.add("active");
+
+ document.getElementById("calculateBtn").onclick=calculate;
+
+ document.getElementById("calculator").scrollIntoView({
+   behavior:"smooth",
+   block:"center"
+ });
 }
 
+function calculate(){
 
-// REMISE
+ const values=currentTool.fields.map((_,i)=>{
+   return parseFloat(document.getElementById("input"+i).value);
+ });
 
-function calculerRemise() {
+ if(values.some(v=>isNaN(v))){
+   document.getElementById("result").textContent=
+   "⚠️ Remplis tous les champs.";
+   return;
+ }
 
-  let prix =
-    parseFloat(document.getElementById("prix").value);
+ try{
 
-  let remise =
-    parseFloat(document.getElementById("remisePourcent").value);
+   let result=currentTool.calc(values);
 
-  if (isNaN(prix) || isNaN(remise)) {
-    document.getElementById("resultatRemise").textContent =
-      "Entre des valeurs valides.";
-    return;
-  }
+   if(typeof result==="number"){
+     result=Number.isInteger(result)
+       ?result
+       :result.toFixed(2);
+   }
 
-  let prixFinal = prix - (prix * remise / 100);
+   document.getElementById("result").textContent=
+   "Résultat : "+result;
 
-  document.getElementById("resultatRemise").textContent =
-    "Prix final : " + prixFinal.toFixed(2) + " €";
+ }catch(e){
+
+   document.getElementById("result").textContent=
+   "⚠️ Impossible de calculer.";
+
+ }
+
 }
 
-
-// VITESSE
-
-function calculerVitesse() {
-
-  let distance =
-    parseFloat(document.getElementById("distance").value);
-
-  let temps =
-    parseFloat(document.getElementById("temps").value);
-
-  if (isNaN(distance) || isNaN(temps) || temps <= 0) {
-    document.getElementById("resultatVitesse").textContent =
-      "Entre des valeurs valides.";
-    return;
-  }
-
-  let vitesse = distance / temps;
-
-  document.getElementById("resultatVitesse").textContent =
-    "Vitesse : " + vitesse.toFixed(2) + " km/h";
+function closeTool(){
+ document.getElementById("calculator").classList.remove("active");
 }
 
+document.getElementById("search").addEventListener("input",function(){
 
-// CONSOMMATION
+ const search=this.value.toLowerCase();
 
-function calculerConsommation() {
+ document.querySelectorAll(".card").forEach(card=>{
 
-  let litres =
-    parseFloat(document.getElementById("litres").value);
+   const name=card.dataset.name.toLowerCase();
 
-  let km =
-    parseFloat(document.getElementById("km").value);
+   if(name.includes(search) || card.textContent.toLowerCase().includes(search)){
+     card.style.display="";
+   }else{
+     card.style.display="none";
+   }
 
-  if (isNaN(litres) || isNaN(km) || km <= 0) {
-    document.getElementById("resultatConsommation").textContent =
-      "Entre des valeurs valides.";
-    return;
-  }
-
-  let consommation = litres / km * 100;
-
-  document.getElementById("resultatConsommation").textContent =
-    "Consommation : " + consommation.toFixed(2) + " L/100 km";
-}
-
-
-// CONVERSION
-
-function convertir() {
-
-  let kilometres =
-    parseFloat(document.getElementById("kilometres").value);
-
-  if (isNaN(kilometres)) {
-    document.getElementById("resultatConversion").textContent =
-      "Entre une valeur valide.";
-    return;
-  }
-
-  let metres = kilometres * 1000;
-
-  document.getElementById("resultatConversion").textContent =
-    metres + " mètres";
-}
-
-
-// RECHERCHE
-
-document.getElementById("search").addEventListener("input", function() {
-
-  let recherche = this.value.toLowerCase();
-
-  document.querySelectorAll(".card").forEach(function(card) {
-
-    if (card.textContent.toLowerCase().includes(recherche)) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-
-  });
+ });
 
 });
 
