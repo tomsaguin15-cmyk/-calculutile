@@ -11818,3 +11818,4716 @@ console.log(
 <!-- =========================================================
      PARTIE 5 FIN
 ========================================================= -->
+<!-- =========================================================
+     SPORT UNIVERSE — PARTIE 6
+     MODULE : LIVE CENTER / SCORES / COMMENTAIRES / STATS
+========================================================= -->
+
+<style>
+
+/* =========================================================
+   LIVE CENTER
+========================================================= */
+
+.live-center{
+    padding:100px 0;
+    position:relative;
+}
+
+.live-hero{
+    position:relative;
+    min-height:340px;
+    border-radius:30px;
+    overflow:hidden;
+    margin-bottom:30px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(4,8,15,.96),
+            rgba(4,8,15,.45),
+            rgba(4,8,15,.9)
+        ),
+        url("https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+    border:1px solid rgba(255,255,255,.08);
+    display:flex;
+    align-items:center;
+}
+
+.live-hero-content{
+    padding:45px;
+    max-width:650px;
+}
+
+.live-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:12px;
+    background:rgba(239,68,68,.12);
+    border:1px solid rgba(239,68,68,.25);
+    color:#ff7777;
+    font-size:11px;
+    font-weight:900;
+}
+
+.live-label::before{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#ef4444;
+    animation:liveBlink 1s infinite;
+}
+
+@keyframes liveBlink{
+    50%{
+        opacity:.2;
+    }
+}
+
+.live-hero h2{
+    font-size:clamp(35px,5vw,65px);
+    line-height:1;
+    margin:18px 0;
+    letter-spacing:-2px;
+}
+
+.live-hero p{
+    color:#b6c0d0;
+    line-height:1.7;
+    max-width:560px;
+}
+
+.live-layout{
+    display:grid;
+    grid-template-columns:1.6fr .8fr;
+    gap:24px;
+}
+
+.live-main{
+    display:grid;
+    gap:20px;
+}
+
+.live-sidebar{
+    display:grid;
+    gap:20px;
+    align-content:start;
+}
+
+.live-match{
+    background:linear-gradient(
+        145deg,
+        rgba(16,24,37,.98),
+        rgba(8,13,21,.98)
+    );
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:25px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.live-match:hover{
+    transform:translateY(-5px);
+    border-color:rgba(34,211,238,.25);
+}
+
+.live-match-header{
+    padding:17px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.live-match-sport{
+    font-size:11px;
+    font-weight:900;
+    color:var(--cyan);
+    text-transform:uppercase;
+}
+
+.live-match-status{
+    color:#ef4444;
+    font-size:11px;
+    font-weight:900;
+}
+
+.live-match-body{
+    padding:28px;
+}
+
+.teams{
+    display:grid;
+    grid-template-columns:1fr 100px 1fr;
+    align-items:center;
+    gap:20px;
+}
+
+.team{
+    text-align:center;
+}
+
+.team-logo{
+    width:72px;
+    height:72px;
+    margin:auto;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.05);
+    font-size:28px;
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.team strong{
+    display:block;
+    margin-top:12px;
+    font-size:15px;
+}
+
+.team span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.match-score{
+    text-align:center;
+}
+
+.match-score strong{
+    font-size:38px;
+    letter-spacing:-2px;
+}
+
+.match-score span{
+    display:block;
+    color:#ef4444;
+    font-size:10px;
+    font-weight:900;
+    margin-top:5px;
+}
+
+.match-actions{
+    display:flex;
+    justify-content:center;
+    gap:9px;
+    margin-top:25px;
+}
+
+.live-action{
+    padding:9px 13px;
+    border-radius:10px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+    color:white;
+    cursor:pointer;
+    font-size:11px;
+    transition:.2s;
+}
+
+.live-action:hover{
+    background:rgba(59,130,246,.18);
+}
+
+/* LIVE STATS */
+
+.live-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:25px;
+}
+
+.live-stat{
+    text-align:center;
+    padding:14px 8px;
+    border-radius:14px;
+    background:rgba(255,255,255,.035);
+}
+
+.live-stat strong{
+    display:block;
+    font-size:18px;
+}
+
+.live-stat span{
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* COMMENTARY */
+
+.commentary-box{
+    margin-top:22px;
+    border-top:1px solid rgba(255,255,255,.06);
+    padding-top:20px;
+}
+
+.commentary-title{
+    font-weight:800;
+    margin-bottom:13px;
+}
+
+.commentary-feed{
+    display:grid;
+    gap:9px;
+    max-height:190px;
+    overflow:auto;
+}
+
+.commentary-item{
+    display:flex;
+    gap:12px;
+    padding:11px;
+    border-radius:12px;
+    background:rgba(255,255,255,.03);
+}
+
+.commentary-time{
+    color:var(--cyan);
+    font-size:11px;
+    font-weight:900;
+    min-width:45px;
+}
+
+.commentary-text{
+    font-size:12px;
+    color:#c5cfdd;
+}
+
+/* LIVE SIDEBAR */
+
+.live-side-card{
+    padding:23px;
+    border-radius:24px;
+    background:linear-gradient(
+        145deg,
+        rgba(16,24,37,.96),
+        rgba(8,13,21,.96)
+    );
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.live-side-card h3{
+    margin:0 0 18px;
+}
+
+.side-result{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:13px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.side-result:last-child{
+    border-bottom:0;
+}
+
+.side-result-name{
+    font-size:12px;
+}
+
+.side-result-score{
+    font-weight:900;
+}
+
+.side-result-status{
+    color:var(--muted);
+    font-size:9px;
+}
+
+/* LIVE FILTER */
+
+.live-filter-bar{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+}
+
+.live-filter{
+    padding:9px 15px;
+    border-radius:11px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+    color:#cbd5e1;
+    cursor:pointer;
+    font-size:11px;
+}
+
+.live-filter.active,
+.live-filter:hover{
+    background:rgba(34,211,238,.12);
+    color:white;
+    border-color:rgba(34,211,238,.3);
+}
+
+/* MINI CHART */
+
+.live-chart{
+    height:170px;
+    position:relative;
+    overflow:hidden;
+    border-radius:17px;
+    background:rgba(255,255,255,.025);
+}
+
+.live-chart-grid{
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.04) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.04) 1px,
+            transparent 1px
+        );
+    background-size:30px 30px;
+}
+
+.live-line{
+    position:absolute;
+    left:0;
+    bottom:30px;
+    width:100%;
+    height:100px;
+}
+
+.live-line svg{
+    width:100%;
+    height:100%;
+    overflow:visible;
+}
+
+.live-line polyline{
+    fill:none;
+    stroke:var(--cyan);
+    stroke-width:3;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    filter:drop-shadow(
+        0 0 6px rgba(34,211,238,.5)
+    );
+}
+
+/* BMX LIVE */
+
+.bmx-live-card{
+    position:relative;
+    min-height:290px;
+    border-radius:25px;
+    overflow:hidden;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5,10,17,.96),
+            rgba(5,10,17,.45)
+        ),
+        url("https://images.unsplash.com/photo-1502744688674-c619d1586c9e?auto=format&fit=crop&w=1200&q=85")
+        center/cover;
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.bmx-live-content{
+    padding:30px;
+}
+
+.bmx-live-content h3{
+    font-size:28px;
+    margin:15px 0 8px;
+}
+
+.bmx-lane{
+    margin-top:22px;
+    display:flex;
+    gap:7px;
+}
+
+.bmx-rider{
+    flex:1;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.08);
+    text-align:center;
+    font-size:11px;
+}
+
+.bmx-rider.first{
+    border-color:rgba(34,211,238,.5);
+    box-shadow:0 0 20px rgba(34,211,238,.1);
+}
+
+.bmx-rider strong{
+    display:block;
+    font-size:17px;
+    margin-bottom:4px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:950px){
+
+    .live-layout{
+        grid-template-columns:1fr;
+    }
+
+    .live-sidebar{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
+
+    .live-center{
+        padding:70px 0;
+    }
+
+    .live-hero-content{
+        padding:28px;
+    }
+
+    .teams{
+        grid-template-columns:1fr 80px 1fr;
+        gap:8px;
+    }
+
+    .team-logo{
+        width:55px;
+        height:55px;
+        font-size:22px;
+    }
+
+    .match-score strong{
+        font-size:30px;
+    }
+
+    .live-stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .live-sidebar{
+        grid-template-columns:1fr;
+    }
+
+    .bmx-lane{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+
+<!-- =========================================================
+     LIVE CENTER
+========================================================= -->
+
+<section class="live-center" id="liveCenter">
+
+<div class="container">
+
+
+<div class="live-hero">
+
+<div class="live-hero-content">
+
+<div class="live-label">
+SPORT UNIVERSE LIVE
+</div>
+
+<h2>
+Le sport<br>
+en direct.
+</h2>
+
+<p>
+Suis les résultats, les scores, les statistiques,
+les commentaires et les performances en temps réel.
+</p>
+
+<button
+class="btn btn-primary"
+onclick="startGlobalLive()">
+▶ Lancer le direct
+</button>
+
+</div>
+
+</div>
+
+
+<!-- FILTERS -->
+
+<div class="live-filter-bar">
+
+<button
+class="live-filter active"
+onclick="filterLiveCenter('all',this)">
+Tout
+</button>
+
+<button
+class="live-filter"
+onclick="filterLiveCenter('bmx',this)">
+BMX
+</button>
+
+<button
+class="live-filter"
+onclick="filterLiveCenter('football',this)">
+Football
+</button>
+
+<button
+class="live-filter"
+onclick="filterLiveCenter('cycling',this)">
+Cyclisme
+</button>
+
+<button
+class="live-filter"
+onclick="filterLiveCenter('basketball',this)">
+Basketball
+</button>
+
+<button
+class="live-filter"
+onclick="filterLiveCenter('running',this)">
+Running
+</button>
+
+</div>
+
+
+<div class="live-layout">
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="live-main">
+
+
+<!-- FOOTBALL -->
+
+<div
+class="live-match"
+data-live-sport="football">
+
+<div class="live-match-header">
+
+<div class="live-match-sport">
+⚽ Football
+</div>
+
+<div class="live-match-status">
+● LIVE — 72'
+</div>
+
+</div>
+
+
+<div class="live-match-body">
+
+<div class="teams">
+
+<div class="team">
+
+<div class="team-logo">
+🇫🇷
+</div>
+
+<strong>
+France
+</strong>
+
+<span>
+Équipe nationale
+</span>
+
+</div>
+
+
+<div class="match-score">
+
+<strong id="footballScore">
+3 — 1
+</strong>
+
+<span>
+72:14
+</span>
+
+</div>
+
+
+<div class="team">
+
+<div class="team-logo">
+🇪🇸
+</div>
+
+<strong>
+Espagne
+</strong>
+
+<span>
+Équipe nationale
+</span>
+
+</div>
+
+</div>
+
+
+<div class="live-stats">
+
+<div class="live-stat">
+
+<strong>
+62%
+</strong>
+
+<span>
+Possession</span>
+
+</div>
+
+<div class="live-stat">
+
+<strong>
+11
+</strong>
+
+<span>
+Tirs</span>
+
+</div>
+
+<div class="live-stat">
+
+<strong>
+6
+</strong>
+
+<span>
+Corners</span>
+
+</div>
+
+<div class="live-stat">
+
+<strong>
+4
+</strong>
+
+<span>
+Cartons</span>
+
+</div>
+
+</div>
+
+
+<div class="commentary-box">
+
+<div class="commentary-title">
+Commentaires en direct
+</div>
+
+<div
+class="commentary-feed"
+id="footballCommentary">
+
+<div class="commentary-item">
+
+<div class="commentary-time">
+72'
+</div>
+
+<div class="commentary-text">
+La France conserve la possession au milieu du terrain.
+</div>
+
+</div>
+
+<div class="commentary-item">
+
+<div class="commentary-time">
+68'
+</div>
+
+<div class="commentary-text">
+Belle occasion française repoussée par le gardien.
+</div>
+
+</div>
+
+<div class="commentary-item">
+
+<div class="commentary-time">
+61'
+</div>
+
+<div class="commentary-text">
+Le rythme augmente fortement depuis quelques minutes.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="match-actions">
+
+<button
+class="live-action"
+onclick="addLiveComment('football')">
+💬 Commenter
+</button>
+
+<button
+class="live-action"
+onclick="followLiveMatch('France - Espagne')">
+☆ Suivre
+</button>
+
+<button
+class="live-action"
+onclick="shareLiveMatch()">
+↗ Partager
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- BMX -->
+
+<div
+class="bmx-live-card"
+data-live-sport="bmx">
+
+<div class="bmx-live-content">
+
+<div class="live-label">
+LIVE
+</div>
+
+<h3>
+Finale BMX U15
+</h3>
+
+<p>
+Manche finale — dernier tour
+</p>
+
+
+<div class="bmx-lane">
+
+<div class="bmx-rider first">
+
+<strong>
+01
+</strong>
+
+Lucas
+
+</div>
+
+<div class="bmx-rider">
+
+<strong>
+02
+</strong>
+
+Julian
+
+</div>
+
+<div class="bmx-rider">
+
+<strong>
+03
+</strong>
+
+Flavio
+
+</div>
+
+<div class="bmx-rider">
+
+<strong>
+04
+</strong>
+
+Mathis
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CYCLING -->
+
+<div
+class="live-match"
+data-live-sport="cycling">
+
+<div class="live-match-header">
+
+<div class="live-match-sport">
+🚴 Cyclisme
+</div>
+
+<div class="live-match-status">
+EN COURS
+</div>
+
+</div>
+
+
+<div class="live-match-body">
+
+<div style="text-align:center">
+
+<div
+style="
+font-size:13px;
+color:var(--muted);
+">
+Course nationale
+</div>
+
+<div
+style="
+font-size:46px;
+font-weight:950;
+margin:8px 0;
+">
+142.8 km
+</div>
+
+<div
+style="
+color:var(--cyan);
+font-weight:800;
+">
+32.7 km/h
+</div>
+
+</div>
+
+
+<div class="live-chart">
+
+<div class="live-chart-grid"></div>
+
+<div class="live-line">
+
+<svg viewBox="0 0 500 100">
+
+<polyline
+points="
+0,82
+35,73
+70,78
+105,55
+140,62
+175,42
+210,50
+245,30
+280,39
+315,25
+350,33
+385,17
+420,24
+460,10
+500,16
+"/>
+
+</svg>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<div class="live-sidebar">
+
+
+<div class="live-side-card">
+
+<h3>
+🔥 En direct
+</h3>
+
+
+<div class="side-result">
+
+<div>
+
+<div class="side-result-name">
+France — Espagne
+</div>
+
+<div class="side-result-status">
+Football
+</div>
+
+</div>
+
+<div class="side-result-score">
+3–1
+</div>
+
+</div>
+
+
+<div class="side-result">
+
+<div>
+
+<div class="side-result-name">
+Finale BMX
+</div>
+
+<div class="side-result-status">
+U15
+</div>
+
+</div>
+
+<div class="side-result-score">
+LIVE
+</div>
+
+</div>
+
+
+<div class="side-result">
+
+<div>
+
+<div class="side-result-name">
+Paris — Lyon
+</div>
+
+<div class="side-result-status">
+Basketball
+</div>
+
+</div>
+
+<div class="side-result-score">
+78–72
+</div>
+
+</div>
+
+
+<div class="side-result">
+
+<div>
+
+<div class="side-result-name">
+Course nationale
+</div>
+
+<div class="side-result-status">
+Cyclisme
+</div>
+
+</div>
+
+<div class="side-result-score">
+142 km
+</div>
+
+</div>
+
+</div>
+
+
+<div class="live-side-card">
+
+<h3>
+📊 Momentum
+</h3>
+
+<p
+style="
+font-size:12px;
+color:var(--muted);
+line-height:1.6;
+">
+Analyse automatique du rythme
+de la compétition.
+</p>
+
+<div class="live-chart">
+
+<div class="live-chart-grid"></div>
+
+<div class="live-line">
+
+<svg viewBox="0 0 500 100">
+
+<polyline
+points="
+0,70
+40,66
+80,74
+120,52
+160,59
+200,35
+240,44
+280,22
+320,31
+360,18
+400,27
+440,12
+500,19
+"/>
+
+</svg>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="live-side-card">
+
+<h3>
+🔔 Alertes LIVE
+</h3>
+
+<div
+id="liveAlertBox"
+style="
+color:var(--muted);
+font-size:12px;
+line-height:1.7;
+">
+Aucune nouvelle alerte.
+</div>
+
+<button
+class="btn btn-secondary"
+style="width:100%;margin-top:15px"
+onclick="enableLiveAlerts()">
+Activer les alertes
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     LIVE DETAIL MODAL
+========================================================= -->
+
+<div class="modal" id="liveDetailModal">
+
+<div
+class="modal-content"
+style="max-width:720px">
+
+<div class="modal-header">
+
+<div>
+
+<span class="eyebrow">
+LIVE CENTER
+</span>
+
+<h2 id="liveModalTitle">
+Match en direct
+</h2>
+
+</div>
+
+<button
+class="close-button"
+onclick="closeModal('liveDetailModal')">
+×
+</button>
+
+</div>
+
+
+<div
+style="
+padding:20px;
+border-radius:20px;
+background:rgba(255,255,255,.035);
+">
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+">
+
+<span class="live-label">
+LIVE
+</span>
+
+<span
+style="
+color:var(--muted);
+font-size:12px;
+">
+Mise à jour automatique
+</span>
+
+</div>
+
+
+<div
+style="
+font-size:42px;
+font-weight:950;
+text-align:center;
+"
+id="liveModalScore">
+3 — 1
+</div>
+
+
+<div
+style="
+text-align:center;
+color:var(--muted);
+margin-top:8px;
+"
+id="liveModalStatus">
+72:14
+</div>
+
+
+<div class="live-stats"
+style="margin-top:25px">
+
+<div class="live-stat">
+
+<strong id="modalStat1">
+62%
+</strong>
+
+<span>
+Possession
+</span>
+
+</div>
+
+<div class="live-stat">
+
+<strong id="modalStat2">
+11
+</strong>
+
+<span>
+Tirs
+</span>
+
+</div>
+
+<div class="live-stat">
+
+<strong id="modalStat3">
+6
+</strong>
+
+<span>
+Corners
+</span>
+
+</div>
+
+<div class="live-stat">
+
+<strong id="modalStat4">
+4
+</strong>
+
+<span>
+Cartons
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   PARTIE 6 — JAVASCRIPT
+========================================================= */
+
+
+/* FILTER */
+
+function filterLiveCenter(
+    sport,
+    button
+){
+
+    document
+    .querySelectorAll(".live-filter")
+    .forEach(btn=>{
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    document
+    .querySelectorAll("[data-live-sport]")
+    .forEach(card=>{
+
+        const cardSport=
+        card.dataset.liveSport;
+
+        if(
+            sport==="all" ||
+            cardSport===sport
+        ){
+
+            card.style.display="block";
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+    toast(
+        sport==="all"
+        ? "Tous les directs affichés"
+        : "Direct : "+sport.toUpperCase()
+    );
+
+}
+
+
+/* GLOBAL LIVE */
+
+let globalLiveRunning=false;
+
+function startGlobalLive(){
+
+    globalLiveRunning=true;
+
+    toast(
+        "SPORT UNIVERSE LIVE activé 🔴"
+    );
+
+    const button=
+    event?.target;
+
+    if(button){
+        button.textContent=
+        "● Direct actif";
+    }
+
+}
+
+
+/* FOOTBALL SCORE SIMULATION */
+
+let franceScore=3;
+let spainScore=1;
+
+function simulateFootballLive(){
+
+    if(!globalLiveRunning)
+        return;
+
+    const chance=
+    Math.random();
+
+    if(chance>.82){
+
+        if(Math.random()>.5){
+
+            franceScore++;
+
+        }else{
+
+            spainScore++;
+
+        }
+
+        const score=
+        document.getElementById(
+            "footballScore"
+        );
+
+        if(score){
+
+            score.textContent=
+            franceScore+
+            " — "+
+            spainScore;
+
+        }
+
+        addFootballCommentary();
+
+    }
+
+}
+
+
+/* COMMENTARY */
+
+const footballMessages=[
+
+"La France accélère dans le dernier tiers.",
+
+"Très belle récupération au milieu du terrain.",
+
+"Le public pousse derrière les joueurs.",
+
+"Nouvelle tentative à distance.",
+
+"Le ballon circule rapidement.",
+
+"Belle séquence collective.",
+
+"La défense intervient au dernier moment."
+
+];
+
+
+function addFootballCommentary(){
+
+    const feed=
+    document.getElementById(
+        "footballCommentary"
+    );
+
+    if(!feed)
+        return;
+
+    const item=
+    document.createElement("div");
+
+    item.className=
+    "commentary-item";
+
+    const minute=
+    Math.floor(
+        73+
+        Math.random()*12
+    );
+
+    const message=
+    footballMessages[
+        Math.floor(
+            Math.random()*
+            footballMessages.length
+        )
+    ];
+
+    item.innerHTML=`
+
+        <div class="commentary-time">
+            ${minute}'
+        </div>
+
+        <div class="commentary-text">
+            ${message}
+        </div>
+
+    `;
+
+    feed.prepend(item);
+
+}
+
+
+/* MANUAL COMMENT */
+
+function addLiveComment(sport){
+
+    const message=
+    prompt(
+        "Ton commentaire :"
+    );
+
+    if(!message)
+        return;
+
+    toast(
+        "Commentaire ajouté ✓"
+    );
+
+    if(
+        sport==="football"
+    ){
+
+        const feed=
+        document.getElementById(
+            "footballCommentary"
+        );
+
+        if(feed){
+
+            const item=
+            document.createElement(
+                "div"
+            );
+
+            item.className=
+            "commentary-item";
+
+            item.innerHTML=`
+
+                <div class="commentary-time">
+                    TOI
+                </div>
+
+                <div class="commentary-text">
+                    ${message
+                    .replaceAll("<","&lt;")
+                    .replaceAll(">","&gt;")}
+                </div>
+
+            `;
+
+            feed.prepend(item);
+
+        }
+
+    }
+
+}
+
+
+/* FOLLOW */
+
+function followLiveMatch(name){
+
+    toast(
+        "Tu suis maintenant : "+
+        name+
+        " ⭐"
+    );
+
+}
+
+
+/* SHARE */
+
+function shareLiveMatch(){
+
+    if(
+        navigator.clipboard
+    ){
+
+        navigator.clipboard.writeText(
+            "Je regarde un direct sur SPORT UNIVERSE 🔥"
+        );
+
+    }
+
+    toast(
+        "Lien du direct copié ✓"
+    );
+
+}
+
+
+/* ALERTS */
+
+function enableLiveAlerts(){
+
+    const box=
+    document.getElementById(
+        "liveAlertBox"
+    );
+
+    if(box){
+
+        box.innerHTML=
+        "🔴 Alertes activées.<br>" +
+        "Tu recevras les principales mises à jour.";
+
+    }
+
+    toast(
+        "Alertes LIVE activées 🔔"
+    );
+
+}
+
+
+/* LIVE MODAL */
+
+function openLiveDetail(){
+
+    const modal=
+    document.getElementById(
+        "liveDetailModal"
+    );
+
+    if(modal)
+        modal.classList.add("open");
+
+}
+
+
+/* CLICK MATCH */
+
+document
+.querySelectorAll(".live-match")
+.forEach(match=>{
+
+    match.addEventListener(
+        "dblclick",
+        ()=>{
+
+            openLiveDetail();
+
+        }
+    );
+
+});
+
+
+/* AUTOMATIC LIVE */
+
+setInterval(
+    simulateFootballLive,
+    7000
+);
+
+
+/* CLOCK */
+
+let liveSeconds=14;
+
+setInterval(()=>{
+
+    if(!globalLiveRunning)
+        return;
+
+    liveSeconds++;
+
+    const minute=
+    Math.floor(
+        liveSeconds/60
+    )+72;
+
+    const second=
+    liveSeconds%60;
+
+    const text=
+    minute+
+    ":"+
+    String(second)
+    .padStart(2,"0");
+
+    document
+    .querySelectorAll(
+        ".match-score span"
+    )
+    .forEach(
+        element=>{
+            element.textContent=text;
+        }
+    );
+
+},1000);
+
+
+/* BMX ANIMATION */
+
+setInterval(()=>{
+
+    document
+    .querySelectorAll(".bmx-rider")
+    .forEach(
+        (rider,index)=>{
+
+            rider.animate(
+                [
+                    {
+                        transform:
+                        "translateY(0)"
+                    },
+                    {
+                        transform:
+                        "translateY(-4px)"
+                    },
+                    {
+                        transform:
+                        "translateY(0)"
+                    }
+                ],
+                {
+                    duration:
+                    450+
+                    index*80,
+                    easing:"ease-in-out"
+                }
+            );
+
+        }
+    );
+
+},2500);
+
+
+/* LIVE HERO PARALLAX */
+
+const liveHero=
+document.querySelector(
+    ".live-hero"
+);
+
+if(liveHero){
+
+    window.addEventListener(
+        "scroll",
+        ()=>{
+
+            const rect=
+            liveHero.getBoundingClientRect();
+
+            const offset=
+            Math.max(
+                -80,
+                Math.min(
+                    80,
+                    rect.top*.05
+                )
+            );
+
+            liveHero.style.backgroundPosition=
+            "center calc(50% + "+
+            offset+
+            "px)";
+
+        }
+    );
+
+}
+
+
+/* READY */
+
+console.log(
+    "SPORT UNIVERSE — LIVE CENTER READY"
+);
+
+</script>
+
+<!-- =========================================================
+     PARTIE 6 FIN
+========================================================= -->
+<!-- ============================================================
+     PARTIE 6 — BMX RESULTS CENTER / STYLE SQORZ
+     À COLLER APRÈS TA PARTIE 5
+============================================================ -->
+
+<style>
+/* ================= BMX RESULTS CENTER ================= */
+
+.bmx-results-center{
+    margin-top:70px;
+    padding:35px 0 80px;
+}
+
+.bmx-results-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:25px;
+    margin-bottom:28px;
+}
+
+.bmx-results-kicker{
+    color:var(--cyan);
+    font-size:13px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin-bottom:8px;
+}
+
+.bmx-results-title{
+    font-size:clamp(30px,5vw,54px);
+    line-height:1;
+    font-weight:1000;
+    margin:0;
+}
+
+.bmx-results-subtitle{
+    color:var(--muted);
+    margin-top:12px;
+    max-width:650px;
+    line-height:1.6;
+}
+
+.bmx-live-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    border-radius:999px;
+    background:rgba(239,68,68,.12);
+    border:1px solid rgba(239,68,68,.35);
+    color:#ff6b6b;
+    font-size:12px;
+    font-weight:900;
+    white-space:nowrap;
+}
+
+.bmx-live-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#ef4444;
+    box-shadow:0 0 15px #ef4444;
+    animation:bmxPulse 1.2s infinite;
+}
+
+@keyframes bmxPulse{
+    0%,100%{transform:scale(1);opacity:1}
+    50%{transform:scale(1.7);opacity:.45}
+}
+
+/* SEARCH */
+
+.bmx-results-toolbar{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr auto;
+    gap:12px;
+    padding:15px;
+    background:rgba(255,255,255,.035);
+    border:1px solid var(--line);
+    border-radius:22px;
+    margin-bottom:20px;
+    backdrop-filter:blur(15px);
+}
+
+.bmx-results-input,
+.bmx-results-select{
+    width:100%;
+    border:1px solid var(--line);
+    background:#0b111a;
+    color:white;
+    padding:14px 16px;
+    border-radius:14px;
+    outline:none;
+}
+
+.bmx-results-input:focus,
+.bmx-results-select:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 0 3px rgba(34,211,238,.08);
+}
+
+.bmx-results-btn{
+    border:0;
+    padding:14px 20px;
+    border-radius:14px;
+    cursor:pointer;
+    color:white;
+    font-weight:900;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    transition:.25s;
+}
+
+.bmx-results-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 30px rgba(34,211,238,.18);
+}
+
+/* EVENT CARD */
+
+.bmx-event-selector{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.bmx-event-select-card{
+    position:relative;
+    padding:20px;
+    border-radius:20px;
+    background:linear-gradient(145deg,#111b29,#0b111a);
+    border:1px solid var(--line);
+    cursor:pointer;
+    transition:.3s;
+    overflow:hidden;
+}
+
+.bmx-event-select-card::after{
+    content:"";
+    position:absolute;
+    width:130px;
+    height:130px;
+    right:-50px;
+    top:-50px;
+    background:var(--cyan);
+    opacity:.05;
+    border-radius:50%;
+}
+
+.bmx-event-select-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(34,211,238,.4);
+}
+
+.bmx-event-select-card.active{
+    border-color:var(--cyan);
+    box-shadow:0 0 0 1px rgba(34,211,238,.2),
+               0 15px 45px rgba(34,211,238,.08);
+}
+
+.bmx-event-date{
+    color:var(--cyan);
+    font-size:12px;
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+.bmx-event-name{
+    font-size:18px;
+    font-weight:900;
+    margin:8px 0;
+}
+
+.bmx-event-place{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.bmx-event-status{
+    margin-top:15px;
+    display:inline-flex;
+    padding:5px 9px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:900;
+    background:rgba(34,197,94,.1);
+    color:#4ade80;
+}
+
+/* MAIN RESULTS */
+
+.bmx-results-layout{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 310px;
+    gap:20px;
+}
+
+.bmx-results-main{
+    background:#0b111a;
+    border:1px solid var(--line);
+    border-radius:24px;
+    overflow:hidden;
+}
+
+.bmx-results-top{
+    padding:22px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.bmx-results-top h3{
+    margin:0;
+    font-size:21px;
+}
+
+.bmx-results-top p{
+    margin:6px 0 0;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.bmx-round-tabs{
+    display:flex;
+    gap:7px;
+    padding:14px 18px;
+    overflow-x:auto;
+    border-bottom:1px solid var(--line);
+}
+
+.bmx-round-tab{
+    border:1px solid var(--line);
+    background:#111925;
+    color:#aeb8c8;
+    padding:9px 15px;
+    border-radius:10px;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:800;
+}
+
+.bmx-round-tab.active{
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    border-color:transparent;
+    color:white;
+}
+
+/* TABLE */
+
+.bmx-results-table-wrap{
+    overflow-x:auto;
+}
+
+.bmx-results-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:720px;
+}
+
+.bmx-results-table th{
+    text-align:left;
+    padding:14px 16px;
+    color:#69778b;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    border-bottom:1px solid var(--line);
+}
+
+.bmx-results-table td{
+    padding:15px 16px;
+    border-bottom:1px solid rgba(255,255,255,.045);
+    font-size:13px;
+}
+
+.bmx-results-table tr{
+    transition:.2s;
+}
+
+.bmx-results-table tbody tr:hover{
+    background:rgba(255,255,255,.025);
+}
+
+.bmx-position{
+    width:42px;
+    height:42px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-weight:1000;
+    background:#151e2b;
+}
+
+.bmx-position.gold{
+    background:linear-gradient(135deg,#facc15,#f59e0b);
+    color:#161616;
+}
+
+.bmx-position.silver{
+    background:linear-gradient(135deg,#e5e7eb,#9ca3af);
+    color:#161616;
+}
+
+.bmx-position.bronze{
+    background:linear-gradient(135deg,#fb923c,#c2410c);
+    color:white;
+}
+
+.bmx-rider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.bmx-rider-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,.08);
+}
+
+.bmx-rider-name{
+    font-weight:900;
+}
+
+.bmx-rider-club{
+    color:#6f7c8f;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.bmx-time{
+    font-family:monospace;
+    font-weight:900;
+}
+
+.bmx-best{
+    color:#4ade80;
+}
+
+.bmx-status{
+    padding:6px 9px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:900;
+}
+
+.bmx-status.finish{
+    color:#4ade80;
+    background:rgba(34,197,94,.1);
+}
+
+.bmx-status.live{
+    color:#fb7185;
+    background:rgba(239,68,68,.1);
+}
+
+.bmx-status.dns{
+    color:#94a3b8;
+    background:rgba(148,163,184,.1);
+}
+
+/* SIDEBAR */
+
+.bmx-results-sidebar{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.bmx-side-card{
+    padding:20px;
+    border-radius:22px;
+    background:#0b111a;
+    border:1px solid var(--line);
+}
+
+.bmx-side-card h4{
+    margin:0 0 15px;
+    font-size:14px;
+}
+
+.bmx-mini-stat{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:11px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.bmx-mini-stat:last-child{
+    border-bottom:0;
+}
+
+.bmx-mini-label{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.bmx-mini-value{
+    font-weight:1000;
+}
+
+.bmx-leader{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    background:#111925;
+    border-radius:14px;
+    margin-bottom:8px;
+}
+
+.bmx-leader img{
+    width:42px;
+    height:42px;
+    object-fit:cover;
+    border-radius:50%;
+}
+
+.bmx-leader strong{
+    display:block;
+    font-size:13px;
+}
+
+.bmx-leader span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.bmx-follow-btn{
+    width:100%;
+    padding:12px;
+    border:1px solid rgba(34,211,238,.3);
+    color:var(--cyan);
+    background:rgba(34,211,238,.06);
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:900;
+    margin-top:8px;
+}
+
+/* DRIVER DETAIL */
+
+.bmx-rider-detail{
+    margin-top:20px;
+    display:none;
+    padding:22px;
+    border:1px solid rgba(34,211,238,.22);
+    border-radius:22px;
+    background:
+      radial-gradient(circle at 100% 0%,rgba(34,211,238,.08),transparent 35%),
+      #0b111a;
+}
+
+.bmx-rider-detail.open{
+    display:block;
+    animation:bmxDetailIn .35s ease;
+}
+
+@keyframes bmxDetailIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.bmx-detail-grid{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:25px;
+    align-items:center;
+}
+
+.bmx-detail-photo{
+    width:180px;
+    height:180px;
+    border-radius:24px;
+    object-fit:cover;
+}
+
+.bmx-detail-name{
+    font-size:30px;
+    font-weight:1000;
+    margin-bottom:5px;
+}
+
+.bmx-detail-meta{
+    color:var(--muted);
+    margin-bottom:20px;
+}
+
+.bmx-detail-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.bmx-detail-stat{
+    background:#111925;
+    border-radius:14px;
+    padding:15px;
+}
+
+.bmx-detail-stat strong{
+    display:block;
+    font-size:21px;
+}
+
+.bmx-detail-stat span{
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+    .bmx-results-toolbar{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .bmx-results-layout{
+        grid-template-columns:1fr;
+    }
+
+    .bmx-event-selector{
+        grid-template-columns:1fr;
+    }
+
+    .bmx-detail-grid{
+        grid-template-columns:1fr;
+    }
+
+    .bmx-detail-photo{
+        width:130px;
+        height:130px;
+    }
+}
+
+@media(max-width:600px){
+    .bmx-results-toolbar{
+        grid-template-columns:1fr;
+    }
+
+    .bmx-results-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .bmx-detail-stats{
+        grid-template-columns:1fr 1fr;
+    }
+}
+</style>
+
+
+<section class="section bmx-results-center" id="bmxResults">
+
+    <div class="container">
+
+        <div class="bmx-results-header">
+
+            <div>
+                <div class="bmx-results-kicker">
+                    BMX Results Center
+                </div>
+
+                <h2 class="bmx-results-title">
+                    Résultats BMX
+                </h2>
+
+                <p class="bmx-results-subtitle">
+                    Un centre de résultats BMX intégré à SPORT UNIVERSE :
+                    courses, manches, pilotes, temps, classements et résultats
+                    en direct.
+                </p>
+            </div>
+
+            <div class="bmx-live-pill">
+                <span class="bmx-live-dot"></span>
+                RÉSULTATS LIVE
+            </div>
+
+        </div>
+
+
+        <!-- RECHERCHE -->
+
+        <div class="bmx-results-toolbar">
+
+            <input
+                id="bmxResultSearch"
+                class="bmx-results-input"
+                placeholder="Rechercher un pilote, club ou course..."
+                oninput="searchBmxResults()"
+            >
+
+            <select
+                id="bmxCategoryFilter"
+                class="bmx-results-select"
+                onchange="filterBmxCategory()"
+            >
+                <option value="all">Toutes catégories</option>
+                <option value="u15">U15</option>
+                <option value="u17">U17</option>
+                <option value="elite">Elite</option>
+                <option value="girls">Féminines</option>
+            </select>
+
+            <select
+                id="bmxRoundFilter"
+                class="bmx-results-select"
+                onchange="filterBmxRound()"
+            >
+                <option value="all">Toutes les manches</option>
+                <option value="1">Manche 1</option>
+                <option value="2">Manche 2</option>
+                <option value="3">Manche 3</option>
+                <option value="final">Finale</option>
+            </select>
+
+            <button
+                class="bmx-results-btn"
+                onclick="refreshBmxResults()"
+            >
+                ↻ Actualiser
+            </button>
+
+        </div>
+
+
+        <!-- COURSES -->
+
+        <div class="bmx-event-selector">
+
+            <div
+                class="bmx-event-select-card active"
+                onclick="selectBmxEvent(this,'Championnat BMX U15','Vesoul')"
+            >
+                <div class="bmx-event-date">
+                    04 OCT. 2026
+                </div>
+
+                <div class="bmx-event-name">
+                    Championnat BMX U15
+                </div>
+
+                <div class="bmx-event-place">
+                    📍 Vesoul — Haute-Saône
+                </div>
+
+                <span class="bmx-event-status">
+                    EN DIRECT
+                </span>
+            </div>
+
+
+            <div
+                class="bmx-event-select-card"
+                onclick="selectBmxEvent(this,'Coupe de France BMX','Besançon')"
+            >
+                <div class="bmx-event-date">
+                    11 OCT. 2026
+                </div>
+
+                <div class="bmx-event-name">
+                    Coupe de France BMX
+                </div>
+
+                <div class="bmx-event-place">
+                    📍 Besançon
+                </div>
+
+                <span class="bmx-event-status">
+                    À VENIR
+                </span>
+            </div>
+
+
+            <div
+                class="bmx-event-select-card"
+                onclick="selectBmxEvent(this,'Challenge National BMX','Lyon')"
+            >
+                <div class="bmx-event-date">
+                    18 OCT. 2026
+                </div>
+
+                <div class="bmx-event-name">
+                    Challenge National BMX
+                </div>
+
+                <div class="bmx-event-place">
+                    📍 Lyon
+                </div>
+
+                <span class="bmx-event-status">
+                    À VENIR
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- RESULTATS -->
+
+        <div class="bmx-results-layout">
+
+            <div class="bmx-results-main">
+
+                <div class="bmx-results-top">
+
+                    <div>
+                        <h3 id="bmxSelectedEvent">
+                            Championnat BMX U15
+                        </h3>
+
+                        <p id="bmxSelectedLocation">
+                            Vesoul • Finale U15
+                        </p>
+                    </div>
+
+                    <strong id="bmxResultCount">
+                        8 pilotes
+                    </strong>
+
+                </div>
+
+
+                <!-- MANCHES -->
+
+                <div class="bmx-round-tabs">
+
+                    <button
+                        class="bmx-round-tab active"
+                        onclick="selectBmxRound(this,'all')"
+                    >
+                        Toutes
+                    </button>
+
+                    <button
+                        class="bmx-round-tab"
+                        onclick="selectBmxRound(this,'1')"
+                    >
+                        M1
+                    </button>
+
+                    <button
+                        class="bmx-round-tab"
+                        onclick="selectBmxRound(this,'2')"
+                    >
+                        M2
+                    </button>
+
+                    <button
+                        class="bmx-round-tab"
+                        onclick="selectBmxRound(this,'3')"
+                    >
+                        M3
+                    </button>
+
+                    <button
+                        class="bmx-round-tab"
+                        onclick="selectBmxRound(this,'final')"
+                    >
+                        FINALE
+                    </button>
+
+                </div>
+
+
+                <div class="bmx-results-table-wrap">
+
+                    <table class="bmx-results-table">
+
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Pilote</th>
+                                <th>Club</th>
+                                <th>M1</th>
+                                <th>M2</th>
+                                <th>M3</th>
+                                <th>Finale</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="bmxResultsBody">
+
+                            <tr
+                                data-category="u15"
+                                data-round="final"
+                                onclick="openBmxRider('Julian Leschenne')"
+                            >
+                                <td>
+                                    <span class="bmx-position gold">
+                                        1
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="bmx-rider">
+                                        <img
+                                            class="bmx-rider-avatar"
+                                            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80"
+                                        >
+
+                                        <div>
+                                            <div class="bmx-rider-name">
+                                                Julian Leschenne
+                                            </div>
+
+                                            <div class="bmx-rider-club">
+                                                BMX Racing France
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>France</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>2</td>
+
+                                <td class="bmx-time bmx-best">
+                                    35.842
+                                </td>
+
+                                <td>
+                                    <span class="bmx-status finish">
+                                        FINISH
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr
+                                data-category="u15"
+                                data-round="final"
+                                onclick="openBmxRider('Flavio Chaillard')"
+                            >
+                                <td>
+                                    <span class="bmx-position silver">
+                                        2
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="bmx-rider">
+                                        <img
+                                            class="bmx-rider-avatar"
+                                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
+                                        >
+
+                                        <div>
+                                            <div class="bmx-rider-name">
+                                                Flavio Chaillard
+                                            </div>
+
+                                            <div class="bmx-rider-club">
+                                                BMX Racing France
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>France</td>
+                                <td>2</td>
+                                <td>1</td>
+                                <td>1</td>
+
+                                <td class="bmx-time">
+                                    36.104
+                                </td>
+
+                                <td>
+                                    <span class="bmx-status finish">
+                                        FINISH
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr
+                                data-category="u15"
+                                data-round="final"
+                                onclick="openBmxRider('Tom Saguin')"
+                            >
+                                <td>
+                                    <span class="bmx-position bronze">
+                                        3
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="bmx-rider">
+                                        <img
+                                            class="bmx-rider-avatar"
+                                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"
+                                        >
+
+                                        <div>
+                                            <div class="bmx-rider-name">
+                                                Tom Saguin
+                                            </div>
+
+                                            <div class="bmx-rider-club">
+                                                BMX Haute-Saône
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>France</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>2</td>
+
+                                <td class="bmx-time">
+                                    36.287
+                                </td>
+
+                                <td>
+                                    <span class="bmx-status finish">
+                                        FINISH
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr
+                                data-category="u15"
+                                data-round="final"
+                                onclick="openBmxRider('Mathis Robert')"
+                            >
+                                <td>
+                                    <span class="bmx-position">
+                                        4
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="bmx-rider">
+                                        <img
+                                            class="bmx-rider-avatar"
+                                            src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=100&q=80"
+                                        >
+
+                                        <div>
+                                            <div class="bmx-rider-name">
+                                                Mathis Robert
+                                            </div>
+
+                                            <div class="bmx-rider-club">
+                                                BMX Besançon
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>France</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>3</td>
+
+                                <td class="bmx-time">
+                                    36.801
+                                </td>
+
+                                <td>
+                                    <span class="bmx-status finish">
+                                        FINISH
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr
+                                data-category="u15"
+                                data-round="final"
+                            >
+                                <td>
+                                    <span class="bmx-position">
+                                        5
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="bmx-rider">
+                                        <img
+                                            class="bmx-rider-avatar"
+                                            src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80"
+                                        >
+
+                                        <div>
+                                            <div class="bmx-rider-name">
+                                                Lucas Martin
+                                            </div>
+
+                                            <div class="bmx-rider-club">
+                                                BMX Dijon
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>France</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>2</td>
+
+                                <td class="bmx-time">
+                                    37.092
+                                </td>
+
+                                <td>
+                                    <span class="bmx-status finish">
+                                        FINISH
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr
+                                data-category="u15"
+                                data-round="final"
+                            >
+                                <td>
+                                    <span class="bmx-position">
+                                        6
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="bmx-rider">
+                                        <img
+                                            class="bmx-rider-avatar"
+                                            src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?auto=format&fit=crop&w=100&q=80"
+                                        >
+
+                                        <div>
+                                            <div class="bmx-rider-name">
+                                                Hugo Morel
+                                            </div>
+
+                                            <div class="bmx-rider-club">
+                                                BMX Lyon
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>France</td>
+                                <td>5</td>
+                                <td>5</td>
+                                <td>4</td>
+
+                                <td class="bmx-time">
+                                    37.410
+                                </td>
+
+                                <td>
+                                    <span class="bmx-status finish">
+                                        FINISH
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- SIDEBAR -->
+
+            <aside class="bmx-results-sidebar">
+
+                <div class="bmx-side-card">
+
+                    <h4>
+                        📊 COURSE
+                    </h4>
+
+                    <div class="bmx-mini-stat">
+                        <span class="bmx-mini-label">
+                            Pilotes
+                        </span>
+
+                        <span
+                            class="bmx-mini-value"
+                            id="bmxSideRiders"
+                        >
+                            8
+                        </span>
+                    </div>
+
+                    <div class="bmx-mini-stat">
+                        <span class="bmx-mini-label">
+                            Manche
+                        </span>
+
+                        <span class="bmx-mini-value">
+                            Finale
+                        </span>
+                    </div>
+
+                    <div class="bmx-mini-stat">
+                        <span class="bmx-mini-label">
+                            Meilleur temps
+                        </span>
+
+                        <span class="bmx-mini-value bmx-best">
+                            35.842
+                        </span>
+                    </div>
+
+                    <div class="bmx-mini-stat">
+                        <span class="bmx-mini-label">
+                            Écart P1/P3
+                        </span>
+
+                        <span class="bmx-mini-value">
+                            +0.445
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="bmx-side-card">
+
+                    <h4>
+                        🏆 PODIUM
+                    </h4>
+
+                    <div class="bmx-leader">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80">
+
+                        <div>
+                            <strong>🥇 Julian Leschenne</strong>
+                            <span>35.842 s</span>
+                        </div>
+                    </div>
+
+                    <div class="bmx-leader">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80">
+
+                        <div>
+                            <strong>🥈 Flavio Chaillard</strong>
+                            <span>36.104 s</span>
+                        </div>
+                    </div>
+
+                    <div class="bmx-leader">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80">
+
+                        <div>
+                            <strong>🥉 Tom Saguin</strong>
+                            <span>36.287 s</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="bmx-side-card">
+
+                    <h4>
+                        🔔 SUIVRE LA COURSE
+                    </h4>
+
+                    <p style="color:var(--muted);font-size:12px;line-height:1.6">
+                        Reçois les changements de classement,
+                        résultats et informations importantes.
+                    </p>
+
+                    <button
+                        class="bmx-follow-btn"
+                        onclick="followBmxResults()"
+                    >
+                        ☆ Suivre cette course
+                    </button>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+
+        <!-- DETAIL PILOTE -->
+
+        <div
+            class="bmx-rider-detail"
+            id="bmxRiderDetail"
+        >
+
+            <div class="bmx-detail-grid">
+
+                <img
+                    id="bmxDetailPhoto"
+                    class="bmx-detail-photo"
+                    src=""
+                >
+
+                <div>
+
+                    <div
+                        id="bmxDetailName"
+                        class="bmx-detail-name"
+                    >
+                        Pilote
+                    </div>
+
+                    <div
+                        id="bmxDetailMeta"
+                        class="bmx-detail-meta"
+                    >
+                        BMX Racing
+                    </div>
+
+                    <div class="bmx-detail-stats">
+
+                        <div class="bmx-detail-stat">
+                            <strong id="detailRank">
+                                3
+                            </strong>
+                            <span>Classement</span>
+                        </div>
+
+                        <div class="bmx-detail-stat">
+                            <strong id="detailBest">
+                                36.287
+                            </strong>
+                            <span>Meilleur temps</span>
+                        </div>
+
+                        <div class="bmx-detail-stat">
+                            <strong id="detailWins">
+                                4
+                            </strong>
+                            <span>Victoires</span>
+                        </div>
+
+                        <div class="bmx-detail-stat">
+                            <strong id="detailPoints">
+                                842
+                            </strong>
+                            <span>Points</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* ============================================================
+   BMX RESULTS ENGINE
+============================================================ */
+
+const bmxRidersDatabase = {
+
+    "Julian Leschenne":{
+        rank:1,
+        club:"BMX Racing France",
+        best:"35.842",
+        wins:12,
+        points:982,
+        photo:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80"
+    },
+
+    "Flavio Chaillard":{
+        rank:2,
+        club:"BMX Racing France",
+        best:"36.104",
+        wins:9,
+        points:941,
+        photo:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80"
+    },
+
+    "Tom Saguin":{
+        rank:3,
+        club:"BMX Haute-Saône",
+        best:"36.287",
+        wins:7,
+        points:842,
+        photo:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80"
+    },
+
+    "Mathis Robert":{
+        rank:4,
+        club:"BMX Besançon",
+        best:"36.801",
+        wins:5,
+        points:811,
+        photo:"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80"
+    },
+
+    "Lucas Martin":{
+        rank:5,
+        club:"BMX Dijon",
+        best:"37.092",
+        wins:3,
+        points:774,
+        photo:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80"
+    },
+
+    "Hugo Morel":{
+        rank:6,
+        club:"BMX Lyon",
+        best:"37.410",
+        wins:2,
+        points:741,
+        photo:"https://images.unsplash.com/photo-1507591064344-4c6ce005b128?auto=format&fit=crop&w=500&q=80"
+    }
+
+};
+
+
+function selectBmxEvent(card,title,location){
+
+    document
+        .querySelectorAll(".bmx-event-select-card")
+        .forEach(x=>x.classList.remove("active"));
+
+    card.classList.add("active");
+
+    document.getElementById("bmxSelectedEvent")
+        .textContent=title;
+
+    document.getElementById("bmxSelectedLocation")
+        .textContent=location+" • Résultats BMX";
+
+    toast("Course sélectionnée : "+title);
+
+}
+
+
+function selectBmxRound(button,round){
+
+    document
+        .querySelectorAll(".bmx-round-tab")
+        .forEach(x=>x.classList.remove("active"));
+
+    button.classList.add("active");
+
+    document.getElementById("bmxRoundFilter").value=round;
+
+    filterBmxRound();
+
+}
+
+
+function filterBmxRound(){
+
+    const round=
+        document.getElementById("bmxRoundFilter").value;
+
+    const rows=
+        document.querySelectorAll("#bmxResultsBody tr");
+
+    let visible=0;
+
+    rows.forEach(row=>{
+
+        const rowRound=row.dataset.round;
+
+        if(
+            round==="all" ||
+            rowRound===round
+        ){
+            row.style.display="";
+            visible++;
+        }else{
+            row.style.display="none";
+        }
+
+    });
+
+    document.getElementById("bmxResultCount")
+        .textContent=visible+" pilotes";
+
+}
+
+
+function filterBmxCategory(){
+
+    const category=
+        document.getElementById("bmxCategoryFilter").value;
+
+    const rows=
+        document.querySelectorAll("#bmxResultsBody tr");
+
+    let visible=0;
+
+    rows.forEach(row=>{
+
+        if(
+            category==="all" ||
+            row.dataset.category===category
+        ){
+            row.style.display="";
+            visible++;
+        }else{
+            row.style.display="none";
+        }
+
+    });
+
+    document.getElementById("bmxResultCount")
+        .textContent=visible+" pilotes";
+
+}
+
+
+function searchBmxResults(){
+
+    const value=
+        document
+        .getElementById("bmxResultSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const rows=
+        document.querySelectorAll("#bmxResultsBody tr");
+
+    let visible=0;
+
+    rows.forEach(row=>{
+
+        const text=row.innerText.toLowerCase();
+
+        if(!value || text.includes(value)){
+            row.style.display="";
+            visible++;
+        }else{
+            row.style.display="none";
+        }
+
+    });
+
+    document.getElementById("bmxResultCount")
+        .textContent=visible+" pilotes";
+
+}
+
+
+function refreshBmxResults(){
+
+    const rows=
+        document.querySelectorAll("#bmxResultsBody tr");
+
+    rows.forEach(row=>{
+
+        row.animate(
+            [
+                {opacity:.3},
+                {opacity:1}
+            ],
+            {
+                duration:500
+            }
+        );
+
+    });
+
+    const times=
+        document.querySelectorAll(".bmx-time");
+
+    times.forEach(time=>{
+
+        const base=parseFloat(time.textContent);
+
+        if(!isNaN(base)){
+
+            const variation=
+                (Math.random()-.5)*.12;
+
+            time.textContent=
+                (base+variation).toFixed(3);
+
+        }
+
+    });
+
+    toast("Résultats BMX actualisés ✓");
+
+}
+
+
+function openBmxRider(name){
+
+    const rider=
+        bmxRidersDatabase[name];
+
+    if(!rider)return;
+
+    document
+        .getElementById("bmxDetailName")
+        .textContent=name;
+
+    document
+        .getElementById("bmxDetailMeta")
+        .textContent=rider.club+" • BMX Racing";
+
+    document
+        .getElementById("bmxDetailPhoto")
+        .src=rider.photo;
+
+    document
+        .getElementById("detailRank")
+        .textContent=rider.rank;
+
+    document
+        .getElementById("detailBest")
+        .textContent=rider.best;
+
+    document
+        .getElementById("detailWins")
+        .textContent=rider.wins;
+
+    document
+        .getElementById("detailPoints")
+        .textContent=rider.points;
+
+    document
+        .getElementById("bmxRiderDetail")
+        .classList.add("open");
+
+    document
+        .getElementById("bmxRiderDetail")
+        .scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+}
+
+
+function followBmxResults(){
+
+    const button=
+        document.querySelector(".bmx-follow-btn");
+
+    if(button.dataset.following==="true"){
+
+        button.dataset.following="false";
+        button.textContent="☆ Suivre cette course";
+
+        toast("Course retirée des favoris");
+
+    }else{
+
+        button.dataset.following="true";
+        button.textContent="★ Course suivie";
+
+        toast("Course ajoutée à tes favoris ✓");
+
+    }
+
+}
+
+
+/* ================= LIVE RESULTS ================= */
+
+let bmxLiveSeconds=35.842;
+
+setInterval(()=>{
+
+    const liveRows=
+        document.querySelectorAll(
+            "#bmxResultsBody tr"
+        );
+
+    if(!liveRows.length)return;
+
+    /*
+       Simulation locale du chrono.
+       À remplacer par une source/API autorisée
+       si tu veux de vraies données live.
+    */
+
+},1000);
+
+
+/* ================= KEYBOARD ================= */
+
+document.addEventListener("keydown",e=>{
+
+    if(
+        e.key==="b" &&
+        document.activeElement.tagName!=="INPUT"
+    ){
+
+        document
+            .getElementById("bmxResults")
+            ?.scrollIntoView({
+                behavior:"smooth"
+            });
+
+    }
+
+});
+
+
+/* ================= INIT ================= */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    filterBmxRound();
+
+});
+
+</script>
+<!-- ============================================================
+     PARTIE 8 — BMX FRANCE CENTER
+============================================================ -->
+
+<style>
+
+.bmx-france-center{
+    padding:70px 0 100px;
+    position:relative;
+}
+
+.bmx-france-hero{
+    min-height:330px;
+    border-radius:32px;
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    padding:35px;
+    margin-bottom:25px;
+    background:
+        linear-gradient(90deg,rgba(4,8,14,.94),rgba(4,8,14,.52)),
+        url("https://images.unsplash.com/photo-1502744688674-c619d1586c9e?auto=format&fit=crop&w=1800&q=90")
+        center/cover;
+    border:1px solid var(--line);
+}
+
+.bmx-france-hero-content{
+    max-width:850px;
+    position:relative;
+    z-index:2;
+}
+
+.bmx-france-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 13px;
+    border-radius:999px;
+    background:rgba(34,211,238,.12);
+    border:1px solid rgba(34,211,238,.25);
+    color:var(--cyan);
+    font-size:11px;
+    font-weight:1000;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+}
+
+.bmx-france-title{
+    font-size:clamp(36px,7vw,76px);
+    font-weight:1000;
+    line-height:.95;
+    margin:15px 0;
+}
+
+.bmx-france-description{
+    color:#b9c3d2;
+    max-width:700px;
+    line-height:1.7;
+}
+
+.bmx-france-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 330px;
+    gap:20px;
+}
+
+.bmx-france-panel{
+    background:#0b111a;
+    border:1px solid var(--line);
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.bmx-france-panel-head{
+    padding:22px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.bmx-france-panel-head h3{
+    margin:0;
+    font-size:21px;
+}
+
+.bmx-france-panel-head p{
+    margin:5px 0 0;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.bmx-france-filters{
+    padding:15px;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    border-bottom:1px solid var(--line);
+}
+
+.bmx-france-filter{
+    flex:none;
+    border:1px solid var(--line);
+    background:#111925;
+    color:#9ba7b9;
+    border-radius:11px;
+    padding:10px 15px;
+    cursor:pointer;
+    font-size:11px;
+    font-weight:900;
+}
+
+.bmx-france-filter.active{
+    color:#fff;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    border-color:transparent;
+}
+
+.bmx-france-search{
+    padding:15px;
+    border-bottom:1px solid var(--line);
+}
+
+.bmx-france-search input{
+    width:100%;
+    box-sizing:border-box;
+    padding:14px 16px;
+    border-radius:13px;
+    border:1px solid var(--line);
+    outline:none;
+    background:#070c13;
+    color:white;
+}
+
+.bmx-france-search input:focus{
+    border-color:var(--cyan);
+}
+
+.bmx-france-events{
+    padding:15px;
+    display:grid;
+    gap:12px;
+}
+
+.bmx-fr-event{
+    padding:18px;
+    border-radius:18px;
+    background:#111925;
+    border:1px solid rgba(255,255,255,.055);
+    cursor:pointer;
+    transition:.25s;
+}
+
+.bmx-fr-event:hover{
+    transform:translateY(-3px);
+    border-color:rgba(34,211,238,.35);
+}
+
+.bmx-fr-event.selected{
+    border-color:var(--cyan);
+    box-shadow:0 0 25px rgba(34,211,238,.06);
+}
+
+.bmx-fr-event-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.bmx-fr-event-date{
+    color:var(--cyan);
+    font-size:11px;
+    font-weight:1000;
+    text-transform:uppercase;
+}
+
+.bmx-fr-event-status{
+    font-size:9px;
+    font-weight:1000;
+    padding:6px 9px;
+    border-radius:8px;
+}
+
+.bmx-fr-event-status.finished{
+    color:#4ade80;
+    background:rgba(34,197,94,.1);
+}
+
+.bmx-fr-event-status.upcoming{
+    color:#fbbf24;
+    background:rgba(251,191,36,.1);
+}
+
+.bmx-fr-event-name{
+    font-size:17px;
+    font-weight:1000;
+    margin:10px 0 5px;
+}
+
+.bmx-fr-event-location{
+    color:#7d899a;
+    font-size:12px;
+}
+
+.bmx-fr-event-footer{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+    flex-wrap:wrap;
+}
+
+.bmx-fr-chip{
+    padding:6px 9px;
+    border-radius:8px;
+    background:#0a1018;
+    color:#8995a7;
+    font-size:10px;
+    font-weight:800;
+}
+
+.bmx-fr-open{
+    margin-left:auto;
+    border:0;
+    background:rgba(34,211,238,.1);
+    color:var(--cyan);
+    padding:7px 11px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:900;
+}
+
+/* CLASSEMENT */
+
+.bmx-fr-ranking{
+    padding:15px;
+}
+
+.bmx-fr-rider{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:12px;
+    margin-bottom:8px;
+    border-radius:14px;
+    background:#111925;
+    transition:.2s;
+}
+
+.bmx-fr-rider:hover{
+    transform:translateX(4px);
+}
+
+.bmx-fr-rank{
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
+    background:#0a1018;
+    font-size:11px;
+    font-weight:1000;
+}
+
+.bmx-fr-rank.first{
+    background:#facc15;
+    color:#111;
+}
+
+.bmx-fr-rank.second{
+    background:#cbd5e1;
+    color:#111;
+}
+
+.bmx-fr-rank.third{
+    background:#fb923c;
+    color:#111;
+}
+
+.bmx-fr-rider img{
+    width:38px;
+    height:38px;
+    object-fit:cover;
+    border-radius:50%;
+}
+
+.bmx-fr-rider-info{
+    min-width:0;
+    flex:1;
+}
+
+.bmx-fr-rider-info strong{
+    display:block;
+    font-size:12px;
+}
+
+.bmx-fr-rider-info span{
+    display:block;
+    color:#707d90;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.bmx-fr-points{
+    font-weight:1000;
+    font-size:12px;
+}
+
+.bmx-fr-selected{
+    margin:15px;
+    padding:20px;
+    border-radius:18px;
+    background:
+        radial-gradient(circle at 100% 0%,rgba(34,211,238,.12),transparent 40%),
+        #111925;
+    border:1px solid rgba(34,211,238,.18);
+}
+
+.bmx-fr-selected-title{
+    color:var(--cyan);
+    font-size:10px;
+    font-weight:1000;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.bmx-fr-selected-name{
+    font-size:24px;
+    font-weight:1000;
+    margin-top:7px;
+}
+
+.bmx-fr-selected-place{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+.bmx-fr-source-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:18px;
+}
+
+.bmx-fr-source{
+    text-decoration:none;
+    text-align:center;
+    padding:11px;
+    border-radius:11px;
+    font-size:10px;
+    font-weight:1000;
+    color:white;
+    background:#080d14;
+    border:1px solid var(--line);
+    transition:.2s;
+}
+
+.bmx-fr-source:hover{
+    border-color:var(--cyan);
+    color:var(--cyan);
+}
+
+.bmx-fr-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    padding:15px;
+}
+
+.bmx-fr-stat{
+    background:#111925;
+    padding:16px;
+    border-radius:15px;
+}
+
+.bmx-fr-stat strong{
+    display:block;
+    font-size:22px;
+    font-weight:1000;
+}
+
+.bmx-fr-stat span{
+    color:#718096;
+    font-size:10px;
+}
+
+.bmx-fr-official-note{
+    margin:15px;
+    padding:14px;
+    border-radius:14px;
+    background:rgba(34,197,94,.06);
+    border:1px solid rgba(34,197,94,.16);
+    color:#8be5a7;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.bmx-fr-empty{
+    padding:35px;
+    text-align:center;
+    color:#687588;
+}
+
+@media(max-width:950px){
+    .bmx-france-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+    .bmx-france-hero{
+        min-height:390px;
+        padding:23px;
+    }
+
+    .bmx-fr-stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .bmx-fr-source-buttons{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+
+
+<section class="section bmx-france-center" id="bmxFranceCenter">
+
+<div class="container">
+
+    <!-- HERO -->
+
+    <div class="bmx-france-hero">
+
+        <div class="bmx-france-hero-content">
+
+            <div class="bmx-france-tag">
+                🇫🇷 BMX RACING FRANCE
+            </div>
+
+            <h2 class="bmx-france-title">
+                BMX<br>
+                FRANCE
+            </h2>
+
+            <p class="bmx-france-description">
+                Le centre national de SPORT UNIVERSE pour retrouver
+                les compétitions BMX, les catégories, les classements
+                et les résultats disponibles.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="bmx-france-grid">
+
+
+        <!-- COLONNE PRINCIPALE -->
+
+        <div class="bmx-france-panel">
+
+            <div class="bmx-france-panel-head">
+
+                <div>
+                    <h3>
+                        🇫🇷 Compétitions nationales
+                    </h3>
+
+                    <p>
+                        Saison BMX Racing 2026
+                    </p>
+                </div>
+
+                <span class="bmx-live-pill">
+                    <span class="bmx-live-dot"></span>
+                    BMX
+                </span>
+
+            </div>
+
+
+            <!-- FILTRES -->
+
+            <div class="bmx-france-filters">
+
+                <button
+                    class="bmx-france-filter active"
+                    onclick="filterFranceEvents('all',this)"
+                >
+                    TOUT
+                </button>
+
+                <button
+                    class="bmx-france-filter"
+                    onclick="filterFranceEvents('cdf',this)"
+                >
+                    COUPE DE FRANCE
+                </button>
+
+                <button
+                    class="bmx-france-filter"
+                    onclick="filterFranceEvents('championnat',this)"
+                >
+                    CHAMPIONNAT
+                </button>
+
+                <button
+                    class="bmx-france-filter"
+                    onclick="filterFranceEvents('challenge',this)"
+                >
+                    CHALLENGE
+                </button>
+
+                <button
+                    class="bmx-france-filter"
+                    onclick="filterFranceEvents('trophee',this)"
+                >
+                    TROPHÉE
+                </button>
+
+            </div>
+
+
+            <!-- RECHERCHE -->
+
+            <div class="bmx-france-search">
+
+                <input
+                    id="franceEventSearch"
+                    type="text"
+                    placeholder="🔎 Rechercher une compétition ou une ville..."
+                    oninput="searchFranceEvents()"
+                >
+
+            </div>
+
+
+            <!-- ÉVÉNEMENTS -->
+
+            <div
+                class="bmx-france-events"
+                id="franceEventsList"
+            >
+
+
+                <div
+                    class="bmx-fr-event selected"
+                    data-type="cdf"
+                    data-search="troyes coupe france bmx racing 7 8"
+                    onclick="selectFranceEvent(this,'Coupe de France BMX Racing #7 & #8','Troyes','19-20 septembre 2026')"
+                >
+
+                    <div class="bmx-fr-event-top">
+
+                        <span class="bmx-fr-event-date">
+                            19 — 20 SEPT. 2026
+                        </span>
+
+                        <span class="bmx-fr-event-status finished">
+                            RÉSULTATS
+                        </span>
+
+                    </div>
+
+                    <div class="bmx-fr-event-name">
+                        Coupe de France BMX Racing #7 & #8
+                    </div>
+
+                    <div class="bmx-fr-event-location">
+                        📍 Troyes — Grand Est
+                    </div>
+
+                    <div class="bmx-fr-event-footer">
+
+                        <span class="bmx-fr-chip">
+                            U15
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            U17
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            Elite
+                        </span>
+
+                        <button
+                            class="bmx-fr-open"
+                            onclick="event.stopPropagation();openFranceResults('Troyes')"
+                        >
+                            Résultats →
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="bmx-fr-event"
+                    data-type="championnat"
+                    data-search="besancon championnat france challenge national bmx racing"
+                    onclick="selectFranceEvent(this,'Championnats de France & Challenge National BMX Racing','Besançon','3 — 5 juillet 2026')"
+                >
+
+                    <div class="bmx-fr-event-top">
+
+                        <span class="bmx-fr-event-date">
+                            3 — 5 JUIL. 2026
+                        </span>
+
+                        <span class="bmx-fr-event-status finished">
+                            RÉSULTATS
+                        </span>
+
+                    </div>
+
+                    <div class="bmx-fr-event-name">
+                        Championnats de France BMX Racing
+                    </div>
+
+                    <div class="bmx-fr-event-location">
+                        📍 Besançon — Bourgogne-Franche-Comté
+                    </div>
+
+                    <div class="bmx-fr-event-footer">
+
+                        <span class="bmx-fr-chip">
+                            Championnat
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            Challenge National
+                        </span>
+
+                        <button
+                            class="bmx-fr-open"
+                            onclick="event.stopPropagation();openFranceResults('Besançon')"
+                        >
+                            Résultats →
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="bmx-fr-event"
+                    data-type="trophee"
+                    data-search="chabeuil trophee france bmx racing tfbmx"
+                    onclick="selectFranceEvent(this,'Trophée de France BMX Racing','Chabeuil','20 — 21 juin 2026')"
+                >
+
+                    <div class="bmx-fr-event-top">
+
+                        <span class="bmx-fr-event-date">
+                            20 — 21 JUIN 2026
+                        </span>
+
+                        <span class="bmx-fr-event-status finished">
+                            RÉSULTATS
+                        </span>
+
+                    </div>
+
+                    <div class="bmx-fr-event-name">
+                        Trophée de France BMX Racing
+                    </div>
+
+                    <div class="bmx-fr-event-location">
+                        📍 Chabeuil — Auvergne-Rhône-Alpes
+                    </div>
+
+                    <div class="bmx-fr-event-footer">
+
+                        <span class="bmx-fr-chip">
+                            U9
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            U11
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            U13
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            U15
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="bmx-fr-event"
+                    data-type="cdf"
+                    data-search="chapelle saint mesmin coupe france bmx racing 5 6"
+                    onclick="selectFranceEvent(this,'Coupe de France BMX Racing #5 & #6','La Chapelle-Saint-Mesmin','9 — 10 mai 2026')"
+                >
+
+                    <div class="bmx-fr-event-top">
+
+                        <span class="bmx-fr-event-date">
+                            9 — 10 MAI 2026
+                        </span>
+
+                        <span class="bmx-fr-event-status finished">
+                            RÉSULTATS
+                        </span>
+
+                    </div>
+
+                    <div class="bmx-fr-event-name">
+                        Coupe de France BMX Racing #5 & #6
+                    </div>
+
+                    <div class="bmx-fr-event-location">
+                        📍 La Chapelle-Saint-Mesmin — Centre-Val de Loire
+                    </div>
+
+                    <div class="bmx-fr-event-footer">
+
+                        <span class="bmx-fr-chip">
+                            National
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            U15
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            U17
+                        </span>
+
+                        <button
+                            class="bmx-fr-open"
+                            onclick="event.stopPropagation();openFranceResults('La Chapelle-Saint-Mesmin')"
+                        >
+                            Résultats →
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="bmx-fr-event"
+                    data-type="cdf"
+                    data-search="machecoul coupe france bmx racing 1 2"
+                    onclick="selectFranceEvent(this,'Coupe de France BMX Racing #1 & #2','Machecoul','28 — 29 mars 2026')"
+                >
+
+                    <div class="bmx-fr-event-top">
+
+                        <span class="bmx-fr-event-date">
+                            28 — 29 MARS 2026
+                        </span>
+
+                        <span class="bmx-fr-event-status finished">
+                            RÉSULTATS
+                        </span>
+
+                    </div>
+
+                    <div class="bmx-fr-event-name">
+                        Coupe de France BMX Racing #1 & #2
+                    </div>
+
+                    <div class="bmx-fr-event-location">
+                        📍 Machecoul
+                    </div>
+
+                    <div class="bmx-fr-event-footer">
+
+                        <span class="bmx-fr-chip">
+                            National
+                        </span>
+
+                        <span class="bmx-fr-chip">
+                            BMX Racing
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="bmx-fr-stats">
+
+                <div class="bmx-fr-stat">
+                    <strong>5</strong>
+                    <span>Épreuves affichées</span>
+                </div>
+
+                <div class="bmx-fr-stat">
+                    <strong>2026</strong>
+                    <span>Saison</span>
+                </div>
+
+                <div class="bmx-fr-stat">
+                    <strong>🇫🇷</strong>
+                    <span>France</span>
+                </div>
+
+                <div class="bmx-fr-stat">
+                    <strong>LIVE</strong>
+                    <span>Centre BMX</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SIDEBAR -->
+
+        <aside>
+
+            <div class="bmx-france-panel">
+
+                <div class="bmx-france-panel-head">
+
+                    <div>
+                        <h3>
+                            🏆 Classement
+                        </h3>
+
+                        <p>
+                            Exemple d'affichage
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="bmx-fr-ranking">
+
+                    <div class="bmx-fr-rider">
+
+                        <div class="bmx-fr-rank first">
+                            1
+                        </div>
+
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80">
+
+                        <div class="bmx-fr-rider-info">
+                            <strong>Julian Leschenne</strong>
+                            <span>U15</span>
+                        </div>
+
+                        <div class="bmx-fr-points">
+                            982
+                        </div>
+
+                    </div>
+
+
+                    <div class="bmx-fr-rider">
+
+                        <div class="bmx-fr-rank second">
+                            2
+                        </div>
+
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80">
+
+                        <div class="bmx-fr-rider-info">
+                            <strong>Flavio Chaillard</strong>
+                            <span>U15</span>
+                        </div>
+
+                        <div class="bmx-fr-points">
+                            941
+                        </div>
+
+                    </div>
+
+
+                    <div class="bmx-fr-rider">
+
+                        <div class="bmx-fr-rank third">
+                            3
+                        </div>
+
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80">
+
+                        <div class="bmx-fr-rider-info">
+                            <strong>Tom Saguin</strong>
+                            <span>U15</span>
+                        </div>
+
+                        <div class="bmx-fr-points">
+                            842
+                        </div>
+
+                    </div>
+
+
+                    <div class="bmx-fr-rider">
+
+                        <div class="bmx-fr-rank">
+                            4
+                        </div>
+
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=100&q=80">
+
+                        <div class="bmx-fr-rider-info">
+                            <strong>Mathis Robert</strong>
+                            <span>U15</span>
+                        </div>
+
+                        <div class="bmx-fr-points">
+                            811
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bmx-fr-selected">
+
+                    <div class="bmx-fr-selected-title">
+                        Course sélectionnée
+                    </div>
+
+                    <div
+                        id="franceSelectedName"
+                        class="bmx-fr-selected-name"
+                    >
+                        Coupe de France #7 & #8
+                    </div>
+
+                    <div
+                        id="franceSelectedPlace"
+                        class="bmx-fr-selected-place"
+                    >
+                        📍 Troyes • 19 — 20 septembre 2026
+                    </div>
+
+                    <div class="bmx-fr-source-buttons">
+
+                        <a
+                            class="bmx-fr-source"
+                            href="https://velo.ffc.fr/resultats-des-courses/?_discipline=bmx"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            FFC
+                        </a>
+
+                        <a
+                            class="bmx-fr-source"
+                            href="https://our.sqorz.com/org/bmxbfc"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Sqorz
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bmx-fr-official-note">
+
+                    ℹ️ Les boutons ci-dessus ouvrent les sources
+                    de résultats. Les classements affichés dans cette
+                    interface restent séparés des données officielles
+                    tant qu'une connexion de données autorisée n'est
+                    pas configurée.
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* ============================================================
+   PARTIE 8 — BMX FRANCE ENGINE
+============================================================ */
+
+function filterFranceEvents(type,button){
+
+    document
+        .querySelectorAll(".bmx-france-filter")
+        .forEach(x=>x.classList.remove("active"));
+
+    button.classList.add("active");
+
+    const events=
+        document.querySelectorAll(".bmx-fr-event");
+
+    let visible=0;
+
+    events.forEach(eventCard=>{
+
+        if(
+            type==="all" ||
+            eventCard.dataset.type===type
+        ){
+
+            eventCard.style.display="";
+            visible++;
+
+        }else{
+
+            eventCard.style.display="none";
+
+        }
+
+    });
+
+    toast(
+        visible+" compétition"+(visible>1?"s":"")+" affichée"+(visible>1?"s":"")
+    );
+
+}
+
+
+function searchFranceEvents(){
+
+    const input=
+        document
+        .getElementById("franceEventSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const events=
+        document.querySelectorAll(".bmx-fr-event");
+
+    let visible=0;
+
+    events.forEach(eventCard=>{
+
+        const text=
+            eventCard.dataset.search.toLowerCase();
+
+        if(
+            !input ||
+            text.includes(input)
+        ){
+
+            eventCard.style.display="";
+            visible++;
+
+        }else{
+
+            eventCard.style.display="none";
+
+        }
+
+    });
+
+}
+
+
+function selectFranceEvent(
+    card,
+    title,
+    location,
+    date
+){
+
+    document
+        .querySelectorAll(".bmx-fr-event")
+        .forEach(x=>x.classList.remove("selected"));
+
+    card.classList.add("selected");
+
+    document
+        .getElementById("franceSelectedName")
+        .textContent=title;
+
+    document
+        .getElementById("franceSelectedPlace")
+        .textContent=
+        "📍 "+location+" • "+date;
+
+    toast("Compétition sélectionnée : "+location);
+
+}
+
+
+function openFranceResults(location){
+
+    const sources={
+        "Troyes":
+            "https://velo.ffc.fr/resultats-des-courses/?_discipline=bmx",
+
+        "Besançon":
+            "https://velo.ffc.fr/resultats-des-courses/?_discipline=bmx",
+
+        "La Chapelle-Saint-Mesmin":
+            "https://velo.ffc.fr/resultats-des-courses/?_discipline=bmx"
+    };
+
+    const url=
+        sources[location] ||
+        "https://velo.ffc.fr/resultats-des-courses/?_discipline=bmx";
+
+    window.open(
+        url,
+        "_blank",
+        "noopener"
+    );
+
+    toast(
+        "Ouverture des résultats BMX pour "+location
+    );
+
+}
+
+
+/* ============================================================
+   BMX NATIONAL SEARCH
+============================================================ */
+
+const bmxFranceRiders=[
+    {
+        name:"Julian Leschenne",
+        category:"U15",
+        points:982
+    },
+    {
+        name:"Flavio Chaillard",
+        category:"U15",
+        points:941
+    },
+    {
+        name:"Tom Saguin",
+        category:"U15",
+        points:842
+    },
+    {
+        name:"Mathis Robert",
+        category:"U15",
+        points:811
+    }
+];
+
+
+function searchBmxFranceRider(name){
+
+    const value=
+        String(name)
+        .toLowerCase()
+        .trim();
+
+    const result=
+        bmxFranceRiders.find(
+            rider=>
+                rider.name
+                .toLowerCase()
+                .includes(value)
+        );
+
+    if(!result){
+
+        toast("Aucun pilote trouvé dans cette liste");
+
+        return null;
+
+    }
+
+    toast(
+        result.name+
+        " • "+
+        result.category+
+        " • "+
+        result.points+
+        " points"
+    );
+
+    return result;
+
+}
+
+
+/* ============================================================
+   ANIMATION
+============================================================ */
+
+const bmxFranceObserver=
+    new IntersectionObserver(
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                if(entry.isIntersecting){
+
+                    entry.target.animate(
+                        [
+                            {
+                                opacity:0,
+                                transform:"translateY(20px)"
+                            },
+                            {
+                                opacity:1,
+                                transform:"translateY(0)"
+                            }
+                        ],
+                        {
+                            duration:650,
+                            easing:"cubic-bezier(.2,.8,.2,1)"
+                        }
+                    );
+
+                    bmxFranceObserver
+                        .unobserve(entry.target);
+
+                }
+
+            });
+
+        },
+        {
+            threshold:.12
+        }
+    );
+
+
+document
+    .querySelectorAll(".bmx-fr-event,.bmx-fr-rider")
+    .forEach(element=>{
+        bmxFranceObserver.observe(element);
+    });
+
+
+/* ============================================================
+   RACCOURCI B
+============================================================ */
+
+document.addEventListener(
+    "keydown",
+    event=>{
+
+        if(
+            event.key.toLowerCase()==="f" &&
+            document.activeElement.tagName!=="INPUT"
+        ){
+
+            document
+                .getElementById("bmxFranceCenter")
+                ?.scrollIntoView({
+                    behavior:"smooth"
+                });
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   INITIALISATION
+============================================================ */
+
+(function(){
+
+    const first=
+        document.querySelector(
+            ".bmx-fr-event.selected"
+        );
+
+    if(first){
+
+        first.animate(
+            [
+                {opacity:0,transform:"translateY(12px)"},
+                {opacity:1,transform:"translateY(0)"}
+            ],
+            {
+                duration:600
+            }
+        );
+
+    }
+
+})();
+
+</script>
